@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | WeianData |
 | Effective date | 2026-07-10 |
@@ -37,27 +37,27 @@ flowchart TD
 
 ## 3. Adoption sequence
 
-After v1.0 publication, WeianData SHOULD adopt the handbook in this order:
+After v1.1 publication, WeianData SHOULD adopt the handbook in this order:
 
-1. new repositories inherit the repository template and README standard;
-2. active repositories align their workflows without rewriting valid history;
-3. client projects adopt data classification and tool-and-data isolation controls;
-4. statistical projects adopt validation and reproducibility evidence;
-5. AI agents receive the relevant handbook links as task constraints;
+1. active client projects adopt the client-delivery profile, data classification, and tool-and-data isolation controls;
+2. statistical projects adopt validation and reproducibility evidence;
+3. AI agents receive the machine-readable task route plus authoritative handbook links;
+4. new repositories inherit the repository template and README standard;
+5. active repositories align their workflows without rewriting valid history;
 6. exceptions and gaps become tracked improvement work.
 
-## 4. v1.1 priorities
+## 4. v1.1 delivered capabilities
 
-The first minor release SHOULD focus on operational enforcement:
+Version 1.1 adds operational enforcement without changing the handbook authority model:
 
-- automated handbook structure and link validation in continuous integration;
-- reusable repository templates for Python, R, and mixed-language projects;
-- architecture decision record and validation-report templates;
-- project-level data classification and retention templates;
-- reproducibility manifests for statistical deliverables;
-- onboarding exercises measured against the two-hour comprehension goal.
+- risk-based Lightweight, Standard, and Controlled operating modes;
+- a client-delivery profile and reusable delivery record;
+- a one-to-twenty-person team-evolution profile;
+- a machine-readable handbook manifest and stable rule registry;
+- automated structure, link, manifest, and registry validation in continuous integration;
+- a controlled exception-record template.
 
-These items are planned capabilities, not requirements of v1.0 unless another approved chapter already requires the underlying behavior.
+These profiles and indexes route readers to owning rules; they do not create duplicate standards.
 
 ## 5. v1.x maturity goals
 
@@ -100,4 +100,3 @@ The roadmap succeeds when:
 - statistical results can be reproduced independently;
 - AI agents can locate authoritative rules without prompt-specific interpretation;
 - handbook exceptions and duplicated local policies decline over time.
-

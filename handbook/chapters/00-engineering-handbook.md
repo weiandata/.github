@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | WeianData Engineering |
 | Effective date | 2026-07-10 |
@@ -36,6 +36,8 @@ Professional measurement is the foundation. Artificial intelligence is an accele
 
 Readers MUST follow the authority order in the [authoring constitution](../SPECIFICATION/handbook-authoring-rules.md#3-authority-and-precedence). The [handbook README](../README.md) is the canonical reading order and topic index.
 
+Humans and AI agents SHOULD select the applicable task route from [`handbook-manifest.json`](../handbook-manifest.json), apply the linked operating profile, and use [`rule-registry.json`](../rule-registry.json) for stable citations. These indexes are non-normative; the linked Markdown source remains authoritative.
+
 When a repository rule conflicts with this handbook, the repository owner MUST either align the repository or record an approved, time-bounded exception. Scientific, security, and client-data requirements MUST NOT be silently relaxed.
 
 ## 6. Best Practices
@@ -68,4 +70,3 @@ The handbook is the single source of truth for how WeianData engineers, validate
 
 - [Engineering Handbook Master Specification](../SPECIFICATION/engineering-handbook-master-specification.md)
 - [Engineering Handbook Authoring Constitution](../SPECIFICATION/handbook-authoring-rules.md)
-

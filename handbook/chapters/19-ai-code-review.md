@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | WeianData Engineering |
 | Effective date | 2026-07-10 |
@@ -43,6 +43,8 @@ The reviewer MUST:
 
 AI-generated tests MUST NOT be the only evidence for AI-generated implementation. A human or independently specified oracle MUST establish expected behavior.
 
+For Controlled work, the review record MUST distinguish AI-generated evidence, accountable-owner approval, and the qualified second-human scope required before client or public reliance.
+
 ## 6. Best Practices
 
 - Ask the AI to identify uncertain code paths, then verify them independently.
@@ -73,4 +75,3 @@ AI-authored code is accepted only through direct inspection, independent evidenc
 
 - [Coding Standards](08-coding-standards.md)
 - [AI Development Policy](16-ai-development-policy.md)
-

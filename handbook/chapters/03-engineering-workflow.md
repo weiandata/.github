@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | WeianData Engineering |
 | Effective date | 2026-07-10 |
@@ -41,7 +41,7 @@ flowchart LR
     L --> K["9. Capture knowledge"]
 ```
 
-Every material change MUST produce:
+Every material change MUST produce evidence proportionate to its selected [operating mode](../profiles/operating-modes.md). Standard and Controlled work produces:
 
 1. an issue or brief stating the problem, scope, owner, and acceptance criteria;
 2. a risk classification covering data, security, scientific validity, and reversibility;
@@ -54,6 +54,8 @@ Every material change MUST produce:
 9. captured knowledge, follow-up work, and closed decisions.
 
 No stage MAY be declared complete on the basis of an AI assertion alone.
+
+Lightweight work MAY use a compact issue or brief, a focused pull request, automated checks, and explicit self-review. The risk classification MUST justify the Lightweight mode. Client deliverables MUST use the [client-delivery profile](../profiles/client-delivery-profile.md), which orders existing engineering, statistical, security, and data gates without redefining them.
 
 ## 6. Best Practices
 
@@ -76,6 +78,7 @@ The issue defines the scoring contract and client execution boundary. Design rec
 - [ ] Design and decisions are recorded at the appropriate depth.
 - [ ] Verification and statistical validation are both complete where applicable.
 - [ ] Review, release, recovery, and knowledge-capture evidence exists.
+- [ ] The operating mode and any client-delivery profile are recorded.
 
 ## 9. Summary
 
@@ -86,4 +89,3 @@ The workflow turns an engineering request into a reviewed, validated, releasable
 - [Pull Request Standard](30-pull-request-standard.md)
 - [Release Process](10-release-process.md)
 - [Research Workflow](12-research-workflow.md)
-

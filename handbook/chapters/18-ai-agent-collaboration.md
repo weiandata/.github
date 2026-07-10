@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | AI and Engineering Owner |
 | Effective date | 2026-07-10 |
@@ -39,6 +39,8 @@ An agent task MUST define objective, inputs, applicable rules, allowed tools, wr
 - agents MUST NOT expand scope, disclose data, publish, or perform irreversible actions without authority;
 - a failed or uncertain result MUST be reported, not concealed by another agent's summary.
 
+Risk classification and human-review separation MUST follow the [operating modes profile](../profiles/operating-modes.md). AI review evidence does not satisfy the second-human requirement for Controlled external reliance.
+
 ## 6. Best Practices
 
 - Delegate independent research, implementation, and test work with clear interfaces.
@@ -69,4 +71,3 @@ AI agents collaborate safely when tasks are bounded, ownership is explicit, evid
 
 - [Prompt Engineering](17-prompt-engineering.md)
 - [AI Code Review](19-ai-code-review.md)
-

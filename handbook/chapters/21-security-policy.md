@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | Security Owner |
 | Effective date | 2026-07-10 |
@@ -45,7 +45,7 @@ All material systems MUST implement:
 - approved secret storage, rotation, and revocation;
 - encryption in transit and at rest appropriate to the threat and service;
 - supported software, dependency review, and timely risk-based remediation;
-- protected source branches and security review in development;
+- source-change controls defined by the [Git standards](05-git-standards.md) and risk-appropriate security review;
 - logging sufficient for investigation without logging secrets or unnecessary personal data;
 - tested backup, recovery, and incident response proportional to business impact;
 - access removal when a role, project, or service relationship ends.
@@ -83,4 +83,3 @@ WeianData protects systems and information through risk-based, testable controls
 - [NIST Secure Software Development Framework](https://csrc.nist.gov/pubs/sp/800/218/final)
 - [OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/)
 - [Client Data Policy](22-client-data-policy.md)
-

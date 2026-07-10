@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | AI and Engineering Owner |
 | Effective date | 2026-07-10 |
@@ -38,9 +38,11 @@ Before AI use, the operator MUST classify the task:
 | High | Statistical interpretation, security logic, client deliverables | Domain review, security or statistical validation, human approval |
 | Prohibited | Unauthorized restricted data disclosure, credential handling in prompts, fabricated evidence or approval | Do not perform |
 
-Restricted client data MUST NOT be sent to an external AI service. AI development on client work MUST use approved code, public information, synthetic data, or the minimum de-identified sample permitted by the [client data policy](22-client-data-policy.md). Model and tool retention settings MUST be evaluated before use.
+AI tools MUST operate within the disclosure, location, retention, and sample-data boundaries owned by the [client data policy](22-client-data-policy.md). Model and tool retention settings MUST be evaluated before use.
 
 AI output MUST NOT be merged, released, or delivered solely because it compiles, appears plausible, or is endorsed by another AI agent. The accountable human MUST approve high-risk output.
+
+Before a high-risk AI-assisted result is relied on by a client or the public, review MUST follow the Controlled path in the [operating modes profile](../profiles/operating-modes.md).
 
 ## 6. Best Practices
 
@@ -72,4 +74,3 @@ AI may perform substantial engineering work, but evidence, data control, and hum
 
 - [AI Agent Collaboration](18-ai-agent-collaboration.md)
 - [AI Code Review](19-ai-code-review.md)
-

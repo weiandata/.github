@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | WeianData |
 | Effective date | 2026-07-10 |
@@ -34,6 +34,8 @@ Higher levels constrain lower levels. Repository-local instructions MAY become s
 handbook/
 ├── README.md
 ├── CHANGELOG.md
+├── handbook-manifest.json
+├── rule-registry.json
 ├── SPECIFICATION/
 │   ├── engineering-handbook-master-specification.md
 │   ├── handbook-authoring-rules.md
@@ -45,8 +47,18 @@ handbook/
 │   ├── 00-engineering-handbook.md
 │   ├── 01-company-mission.md
 │   └── ...
+├── profiles/
+│   ├── operating-modes.md
+│   ├── client-delivery-profile.md
+│   └── team-evolution-profile.md
+├── templates/
+│   ├── client-delivery-record.md
+│   └── review-exception-record.md
+├── tools/
+│   └── validate_handbook.py
 └── RELEASES/
-    └── v1.0-validation-report.md
+    ├── v1.0-validation-report.md
+    └── v1.1-validation-report.md
 ```
 
 The numbered filename is the stable reading order. Renumbering is a structural change and SHOULD be avoided after publication.
@@ -63,6 +75,8 @@ Every governed document MUST expose these metadata fields near the title:
 | Effective date | Date on which the approved rule takes effect |
 
 Numbered chapters additionally follow the section contract in the [authoring constitution](handbook-authoring-rules.md#7-chapter-contract).
+
+`handbook-manifest.json` is the machine-readable navigation and applicability index. `rule-registry.json` assigns stable identifiers to owning rule sections. Both are derived indexes: when either conflicts with an owning Markdown document, the Markdown document takes precedence and the index MUST be corrected.
 
 ## 6. Status lifecycle
 
@@ -151,6 +165,8 @@ Before publication, the handbook MUST pass:
 9. human accountability review;
 10. release completeness review.
 
+Validation MUST also confirm that the manifest and rule registry are valid, reference existing authoritative sources, use unique identifiers, and agree with the published handbook version.
+
 The detailed procedure is owned by the [review standard](handbook-review-standard.md).
 
 ## 11. Extension model
@@ -160,4 +176,3 @@ A new chapter requires a clear topic owner, no overlap with existing rule owners
 ## 12. Success criteria
 
 The architecture succeeds when a new engineer or AI agent can locate the authoritative rule, understand the required evidence, and execute the standard without hidden organizational knowledge.
-

@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "handbook_version": "1.1.0",
+  "status": "published",
+  "normative": false,
+  "authority": [
+    "SPECIFICATION/engineering-handbook-master-specification.md",
+    "SPECIFICATION/handbook-authoring-rules.md",
+    "SPECIFICATION/engineering-handbook-specification.md",
+    "SPECIFICATION/handbook-style-guide.md",
+    "SPECIFICATION/handbook-review-standard.md",
+    "SPECIFICATION/handbook-roadmap.md"
+  ],
+  "chapters": [
+    {"number": "00", "id": "engineering-handbook", "path": "chapters/00-engineering-handbook.md", "topic": "handbook entrypoint", "owner": "WeianData Engineering", "default_risk": "R1"},
+    {"number": "01", "id": "company-mission", "path": "chapters/01-company-mission.md", "topic": "mission alignment", "owner": "WeianData", "default_risk": "R2"},
+    {"number": "02", "id": "engineering-philosophy", "path": "chapters/02-engineering-philosophy.md", "topic": "engineering trade-offs", "owner": "WeianData Engineering", "default_risk": "R2"},
+    {"number": "03", "id": "engineering-workflow", "path": "chapters/03-engineering-workflow.md", "topic": "engineering lifecycle", "owner": "WeianData Engineering", "default_risk": "R2"},
+    {"number": "04", "id": "repository-standards", "path": "chapters/04-repository-standards.md", "topic": "repository baseline", "owner": "Repository Owner", "default_risk": "R2"},
+    {"number": "05", "id": "git-standards", "path": "chapters/05-git-standards.md", "topic": "Git safety and history", "owner": "WeianData Engineering", "default_risk": "R2"},
+    {"number": "06", "id": "branching-strategy", "path": "chapters/06-branching-strategy.md", "topic": "branch integration", "owner": "Repository Owner", "default_risk": "R2"},
+    {"number": "07", "id": "commit-convention", "path": "chapters/07-commit-convention.md", "topic": "commit messages", "owner": "WeianData Engineering", "default_risk": "R1"},
+    {"number": "08", "id": "coding-standards", "path": "chapters/08-coding-standards.md", "topic": "source-code quality", "owner": "WeianData Engineering", "default_risk": "R2"},
+    {"number": "09", "id": "documentation-standards", "path": "chapters/09-documentation-standards.md", "topic": "product and code documentation", "owner": "WeianData Engineering", "default_risk": "R2"},
+    {"number": "10", "id": "release-process", "path": "chapters/10-release-process.md", "topic": "release gates", "owner": "Release Owner", "default_risk": "R2"},
+    {"number": "11", "id": "statistical-validation", "path": "chapters/11-statistical-validation.md", "topic": "statistical acceptance", "owner": "Statistical Lead", "default_risk": "R3"},
+    {"number": "12", "id": "research-workflow", "path": "chapters/12-research-workflow.md", "topic": "research lifecycle", "owner": "Research Lead", "default_risk": "R3"},
+    {"number": "13", "id": "reproducibility-standard", "path": "chapters/13-reproducibility-standard.md", "topic": "reproducibility", "owner": "WeianData Engineering", "default_risk": "R2"},
+    {"number": "14", "id": "simulation-standard", "path": "chapters/14-simulation-standard.md", "topic": "simulation design", "owner": "Statistical Lead", "default_risk": "R3"},
+    {"number": "15", "id": "benchmark-standard", "path": "chapters/15-benchmark-standard.md", "topic": "performance benchmarking", "owner": "WeianData Engineering", "default_risk": "R2"},
+    {"number": "16", "id": "ai-development-policy", "path": "chapters/16-ai-development-policy.md", "topic": "permitted AI use", "owner": "AI and Engineering Owner", "default_risk": "R3"},
+    {"number": "17", "id": "prompt-engineering", "path": "chapters/17-prompt-engineering.md", "topic": "prompt construction", "owner": "AI and Engineering Owner", "default_risk": "R2"},
+    {"number": "18", "id": "ai-agent-collaboration", "path": "chapters/18-ai-agent-collaboration.md", "topic": "multi-agent work", "owner": "AI and Engineering Owner", "default_risk": "R2"},
+    {"number": "19", "id": "ai-code-review", "path": "chapters/19-ai-code-review.md", "topic": "AI-authored code review", "owner": "WeianData Engineering", "default_risk": "R3"},
+    {"number": "20", "id": "ai-knowledge-management", "path": "chapters/20-ai-knowledge-management.md", "topic": "AI-reusable knowledge", "owner": "Knowledge Owner", "default_risk": "R2"},
+    {"number": "21", "id": "security-policy", "path": "chapters/21-security-policy.md", "topic": "security controls", "owner": "Security Owner", "default_risk": "R3"},
+    {"number": "22", "id": "client-data-policy", "path": "chapters/22-client-data-policy.md", "topic": "client-data handling", "owner": "Client Data Owner", "default_risk": "R3"},
+    {"number": "23", "id": "repository-governance", "path": "chapters/23-repository-governance.md", "topic": "repository administration", "owner": "Organization Administrator", "default_risk": "R2"},
+    {"number": "24", "id": "architecture-decision-records", "path": "chapters/24-architecture-decision-records.md", "topic": "architecture decisions", "owner": "Architecture Owner", "default_risk": "R2"},
+    {"number": "25", "id": "dependency-management", "path": "chapters/25-dependency-management.md", "topic": "third-party dependencies", "owner": "Repository Owner", "default_risk": "R2"},
+    {"number": "26", "id": "open-source-policy", "path": "chapters/26-open-source-policy.md", "topic": "open-source release decisions", "owner": "Open Source Owner", "default_risk": "R3"},
+    {"number": "27", "id": "repository-template", "path": "chapters/27-repository-template.md", "topic": "repository scaffold", "owner": "WeianData Engineering", "default_risk": "R1"},
+    {"number": "28", "id": "readme-standard", "path": "chapters/28-readme-standard.md", "topic": "README content", "owner": "Repository Owner", "default_risk": "R1"},
+    {"number": "29", "id": "issue-template", "path": "chapters/29-issue-template.md", "topic": "issue intake", "owner": "Repository Owner", "default_risk": "R1"},
+    {"number": "30", "id": "pull-request-standard", "path": "chapters/30-pull-request-standard.md", "topic": "pull-request evidence", "owner": "Repository Owner", "default_risk": "R2"},
+    {"number": "31", "id": "community-guidelines", "path": "chapters/31-community-guidelines.md", "topic": "public participation", "owner": "Open Source Owner", "default_risk": "R2"},
+    {"number": "32", "id": "naming-convention", "path": "chapters/32-naming-convention.md", "topic": "names", "owner": "WeianData Engineering", "default_risk": "R1"},
+    {"number": "33", "id": "file-structure-convention", "path": "chapters/33-file-structure-convention.md", "topic": "paths and layout", "owner": "WeianData Engineering", "default_risk": "R1"},
+    {"number": "34", "id": "versioning-guide", "path": "chapters/34-versioning-guide.md", "topic": "version semantics", "owner": "WeianData Engineering", "default_risk": "R2"},
+    {"number": "35", "id": "glossary", "path": "chapters/35-glossary.md", "topic": "defined terms", "owner": "Knowledge Owner", "default_risk": "R1"}
+  ],
+  "profiles": [
+    {"id": "operating-modes", "path": "profiles/operating-modes.md", "normative": false},
+    {"id": "client-delivery", "path": "profiles/client-delivery-profile.md", "normative": false},
+    {"id": "team-evolution", "path": "profiles/team-evolution-profile.md", "normative": false}
+  ],
+  "templates": [
+    {"id": "client-delivery-record", "path": "templates/client-delivery-record.md"},
+    {"id": "review-exception-record", "path": "templates/review-exception-record.md"}
+  ],
+  "task_routes": {
+    "lightweight_change": {"mode": "Lightweight", "profile": "profiles/operating-modes.md", "required_chapters": ["03", "05", "29", "30"]},
+    "software_change": {"mode": "Standard", "profile": "profiles/operating-modes.md", "required_chapters": ["03", "04", "05", "06", "08", "09", "13", "25", "30"]},
+    "statistical_analysis": {"mode": "Controlled", "profile": "profiles/operating-modes.md", "required_chapters": ["03", "08", "09", "11", "12", "13", "14", "16", "19", "30"]},
+    "client_tool_delivery": {"mode": "Controlled", "profile": "profiles/client-delivery-profile.md", "required_chapters": ["03", "08", "09", "10", "11", "13", "16", "18", "19", "21", "22", "24", "25", "30"]},
+    "ai_agent_task": {"mode": "Standard", "profile": "profiles/operating-modes.md", "required_chapters": ["16", "17", "18", "19", "20", "22"]},
+    "security_change": {"mode": "Controlled", "profile": "profiles/operating-modes.md", "required_chapters": ["03", "16", "19", "21", "22", "24", "25", "30"]},
+    "open_source_release": {"mode": "Controlled", "profile": "profiles/operating-modes.md", "required_chapters": ["04", "05", "09", "10", "21", "23", "25", "26", "28", "30", "31", "34"]}
+  }
+}

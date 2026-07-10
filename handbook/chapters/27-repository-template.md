@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | WeianData Engineering |
 | Effective date | 2026-07-10 |
@@ -28,7 +28,7 @@ A template should encode safe defaults while leaving language and project choice
 
 ## 5. Standards
 
-New repositories MUST begin with the applicable form of this scaffold:
+The [repository standards](04-repository-standards.md) own the required capabilities. New repositories SHOULD implement the applicable baseline with this non-normative scaffold:
 
 ```text
 .
@@ -52,7 +52,7 @@ New repositories MUST begin with the applicable form of this scaffold:
 └── dependency manifests and lock files
 ```
 
-The repository MUST declare owner, status, visibility, data classification, setup, test, lint, build, and release commands. Statistical repositories MUST include validation fixtures or a documented validation location. Directories without a project need SHOULD be omitted rather than left empty.
+The scaffold MUST be tailored to the selected operating mode and language ecosystem. It MUST NOT be interpreted as requiring an irrelevant directory or tool. Statistical repositories use the validation location required by their owning standards. Directories without a project need SHOULD be omitted rather than left empty.
 
 ## 6. Best Practices
 
@@ -84,4 +84,3 @@ The repository template provides a small, safe, reproducible starting point adap
 
 - [Repository Standards](04-repository-standards.md)
 - [File Structure Convention](33-file-structure-convention.md)
-

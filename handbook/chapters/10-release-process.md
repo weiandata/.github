@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | Release Owner |
 | Effective date | 2026-07-10 |
@@ -44,6 +44,8 @@ Every release MUST:
 
 Client releases MUST also follow the client-data policy and record acceptance criteria. Public releases MUST pass the open-source policy.
 
+Release evidence and review depth MUST follow the selected [operating mode](../profiles/operating-modes.md). A Controlled result cannot create client or public reliance until the required qualified human review is recorded.
+
 ## 6. Best Practices
 
 - Build artifacts in controlled automation.
@@ -74,4 +76,3 @@ A WeianData release is a reviewed, validated, reproducible artifact with clear o
 
 - [Open Source Policy](26-open-source-policy.md)
 - [Dependency Management](25-dependency-management.md)
-

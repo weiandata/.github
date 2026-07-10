@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | WeianData |
 | Effective date | 2026-07-10 |
@@ -29,6 +29,8 @@ When documents conflict, use this order:
 7. Tool defaults, generated suggestions, and informal practice.
 
 A lower-level document MUST NOT weaken a higher-level requirement. A conflict MUST be resolved at its source; it MUST NOT be hidden by adding an exception elsewhere.
+
+Company-wide standards MUST live in the handbook. Repository-local instructions MAY implement, specialize, or strengthen those standards for a specific system. They MUST link to the owning handbook rule and MUST NOT present local practice as a company-wide standard.
 
 ## 4. Normative language
 
@@ -60,6 +62,8 @@ Every handbook document MUST:
 
 Each normative topic has one owner. The owner is recorded in the [handbook specification](engineering-handbook-specification.md#7-rule-ownership). Other documents MAY summarize the intent in one sentence but MUST link to the owner for the operative rule.
 
+The machine-readable rule registry is a non-normative index. Its stable identifiers and summaries point to owning source sections; they MUST NOT replace or restate the authoritative rule text.
+
 When duplication is discovered:
 
 1. identify the authoritative statement;
@@ -83,6 +87,8 @@ Every numbered chapter MUST contain these sections in this order:
 10. References, when references exist
 
 Each chapter MUST be independently readable while avoiding copied policy. Operational chapters MUST end with an actionable checklist. Examples MUST be clearly labeled non-normative unless they illustrate a mandatory format.
+
+Operational profiles and templates MAY select, order, and package existing rules for a task. They MUST identify every owning chapter and MUST NOT create a second source of normative requirements.
 
 ## 8. Evidence and scientific claims
 

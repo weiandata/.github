@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | Knowledge Owner |
 | Effective date | 2026-07-10 |
@@ -41,6 +41,8 @@ Knowledge provided to AI agents MUST:
 
 Generated chat summaries, model memories, and vector-index entries MUST NOT become normative without promotion into an approved source document. Retrieval systems MUST preserve source attribution and access control. Conflicting sources MUST be resolved by the handbook authority order.
 
+AI agents SHOULD use `handbook-manifest.json` to select applicable documents and `rule-registry.json` to cite stable rule identifiers. These files are non-normative indexes; the linked Markdown source remains authoritative.
+
 ## 6. Best Practices
 
 - Keep repository-specific instructions short and link company standards.
@@ -71,4 +73,3 @@ AI-reusable knowledge must be authoritative, scoped, current, attributable, and 
 
 - [Documentation Standards](09-documentation-standards.md)
 - [Architecture Decision Records](24-architecture-decision-records.md)
-

@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | Repository Owner |
 | Effective date | 2026-07-10 |
@@ -29,7 +29,7 @@ A repository is a durable unit of ownership, evidence, and knowledge. It should 
 
 ## 5. Standards
 
-Every active repository MUST contain or explicitly link to:
+Every active repository MUST satisfy a baseline proportionate to its [operating mode](../profiles/operating-modes.md) and contain or explicitly link to:
 
 - a README conforming to the [README standard](28-readme-standard.md);
 - ownership and maintenance status;
@@ -37,12 +37,12 @@ Every active repository MUST contain or explicitly link to:
 - contribution and review instructions;
 - security reporting guidance appropriate to visibility;
 - dependency manifests and lock or snapshot evidence;
-- automated tests and a documented test command;
-- continuous integration for required deterministic checks;
+- automated tests and a documented test command when executable behavior exists;
+- continuous integration for required deterministic checks when the repository is shared, released, or used for Controlled work;
 - release and version information when artifacts are distributed;
 - data classification and storage rules when data is used.
 
-Default branches MUST be protected against accidental destructive updates. Credentials and restricted client data MUST NOT be committed. Generated artifacts SHOULD be excluded unless they are required evidence or distributed deliverables.
+Git history and branch controls MUST follow the [Git standards](05-git-standards.md). Information stored in a repository MUST follow the [security policy](21-security-policy.md) and [client data policy](22-client-data-policy.md). Generated artifacts SHOULD be excluded unless they are required evidence or distributed deliverables.
 
 ## 6. Best Practices
 
@@ -75,4 +75,3 @@ Every repository must be owned, reproducible, reviewable, and safe to maintain i
 - [Repository Template](27-repository-template.md)
 - [File Structure Convention](33-file-structure-convention.md)
 - [Repository Governance](23-repository-governance.md)
-

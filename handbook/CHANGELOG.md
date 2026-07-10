@@ -2,6 +2,33 @@
 
 All notable changes to the WeianData Engineering Handbook are recorded here. The handbook uses Semantic Versioning.
 
+## [1.1.0] - 2026-07-10
+
+### Added
+
+- Lightweight, Standard, and Controlled operating modes tied to R1-R4 risk classes.
+- A client-delivery profile and reusable delivery record for tool-and-data isolation projects.
+- A one-to-twenty-person team-evolution profile.
+- A machine-readable handbook manifest with task-to-chapter routes.
+- A stable, non-normative rule registry linked to authoritative source sections.
+- Continuous-integration validation for structure, links, manifest, routes, rule ownership, and exact normative duplication.
+- A controlled review-exception record.
+
+### Changed
+
+- Clarified that company-wide standards belong in the handbook while repository-local implementation may specialize them.
+- Consolidated client-data rules under the Client Data Policy and Git controls under the Git Standards.
+- Made issue, pull-request, repository, and workflow evidence proportional to operating risk.
+- Defined a viable second-human review path for founder-led Controlled client or public reliance.
+- Prioritized active client delivery and statistical evidence ahead of generic repository rollout.
+- Made References optional in validation as required by the master specification.
+
+### Fixed
+
+- Removed semantic duplication across branch, repository, security, AI, and client-data controls.
+- Resolved the conflict between a one-person operating model and high-risk external review requirements.
+- Replaced hard-coded chapter discovery with manifest-driven validation.
+
 ## [1.0.0] - 2026-07-10
 
 ### Added
@@ -18,4 +45,3 @@ All notable changes to the WeianData Engineering Handbook are recorded here. The
 ### Publication note
 
 This is the first complete, approved handbook release. It establishes the baseline for future repository templates, automated checks, and project adoption.
-

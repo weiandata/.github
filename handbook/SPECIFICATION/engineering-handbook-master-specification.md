@@ -1,6 +1,6 @@
 # WeianData Engineering Handbook Master Specification
 
-Version: 1.0
+Version: 1.1.0
 
 Status: Approved
 
@@ -148,6 +148,14 @@ Examples:
 
 handbook/
 
+README.md
+
+CHANGELOG.md
+
+handbook-manifest.json
+
+rule-registry.json
+
 SPECIFICATION/
 
 engineering-handbook-master-specification.md
@@ -166,13 +174,37 @@ chapters/
 
 00-engineering-handbook.md
 
-01-engineering-workflow.md
+01-company-mission.md
 
-02-repository-standards.md
+02-engineering-philosophy.md
+
+03-engineering-workflow.md
 
 ...
 
-README.md
+profiles/
+
+operating-modes.md
+
+client-delivery-profile.md
+
+team-evolution-profile.md
+
+templates/
+
+client-delivery-record.md
+
+review-exception-record.md
+
+tools/
+
+validate-handbook.py
+
+RELEASES/
+
+v1.0-validation-report.md
+
+v1.1-validation-report.md
 
 profile/
 
@@ -492,7 +524,9 @@ The Engineering Handbook should eventually become the engineering operating syst
 
 Future software repositories, AI agents, engineering workflows, statistical tools, consulting projects, and open-source software should all inherit from this handbook.
 
-No engineering practice should exist outside the handbook.
+No company-wide engineering standard should exist outside the handbook.
+
+Repository-specific practices may exist in the owning repository when they implement, specialize, or strengthen handbook standards. They should link to the authoritative handbook rule and must not weaken it.
 
 ---
 

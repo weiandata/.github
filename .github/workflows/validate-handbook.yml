@@ -1,0 +1,25 @@
+name: Validate Engineering Handbook
+
+on:
+  pull_request:
+    paths:
+      - "handbook/**"
+      - ".github/workflows/validate-handbook.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "handbook/**"
+      - ".github/workflows/validate-handbook.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate handbook publication contract
+        run: python3 handbook/tools/validate_handbook.py

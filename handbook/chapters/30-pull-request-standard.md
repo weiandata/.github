@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | Repository Owner |
 | Effective date | 2026-07-10 |
@@ -29,7 +29,7 @@ A pull request is a review package: problem, change, evidence, risk, and recover
 
 ## 5. Standards
 
-A pull request MUST include:
+Standard and Controlled pull requests MUST include:
 
 ```markdown
 ## Outcome
@@ -57,7 +57,7 @@ A pull request MUST include:
 
 The author MUST disclose material AI assistance and identify how the output was verified. Required checks MUST pass. Statistical, security, dependency, license, data, and domain reviewers MUST be requested when their areas are affected. The author MUST respond to findings with a change, evidence-based rationale, or documented follow-up approved by the reviewer.
 
-Self-approval MUST NOT be the sole approval for high-risk changes. Emergency integration requires explicit owner authorization and retrospective review.
+Lightweight pull requests MAY contain only outcome, risk class, verification evidence, and owner self-review. Before a Controlled result is relied on by a client or the public, self-approval MUST NOT be the sole human approval. A qualified client reviewer or contracted specialist MAY provide the second review when the scope and evidence are recorded. Emergency integration requires explicit owner authorization and retrospective review, but it MUST NOT create external reliance on an unreviewed high-risk result.
 
 ## 6. Best Practices
 
@@ -90,4 +90,3 @@ A pull request is ready only when the change and its evidence can be reviewed as
 
 - [AI Code Review](19-ai-code-review.md)
 - [Release Process](10-release-process.md)
-

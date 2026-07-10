@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Release | v1.0.0 |
+| Release | v1.1.0 |
 | Status | Published |
 | Owner | WeianData |
 | Publication date | 2026-07-10 |
@@ -22,6 +22,16 @@ Read governing documents in this order:
 
 The [authoring constitution](SPECIFICATION/handbook-authoring-rules.md#3-authority-and-precedence) defines conflict precedence. Numbered chapters own operational rules by topic.
 
+## Operating profiles and AI navigation
+
+- [Operating Modes Profile](profiles/operating-modes.md) selects Lightweight, Standard, or Controlled evidence by risk.
+- [Client Delivery Profile](profiles/client-delivery-profile.md) applies existing rules to customized client work and tool-and-data isolation.
+- [Team Evolution Profile](profiles/team-evolution-profile.md) scales ownership and review from one person to twenty.
+- [`handbook-manifest.json`](handbook-manifest.json) provides machine-readable document metadata and task routes.
+- [`rule-registry.json`](rule-registry.json) provides stable, non-normative rule identifiers linked to authoritative Markdown sections.
+
+AI agents SHOULD select a task route from the manifest, read the profile and required chapters, and cite stable rule identifiers while treating the linked Markdown as authoritative.
+
 ## Recommended reading paths
 
 ### Two-hour orientation
@@ -34,7 +44,7 @@ Read 03, 08–14, 16–19, 22, 25, and 30.
 
 ### Client tool delivery
 
-Read 03–10, 13, 16, 19, 21–25, and 30.
+Start with the [Client Delivery Profile](profiles/client-delivery-profile.md), then read the chapters selected by its manifest route.
 
 ### New open-source repository
 
@@ -114,6 +124,7 @@ Read 04–10, 21, 23, and 25–34.
 ## Release information
 
 - [Changelog](CHANGELOG.md)
+- [v1.1.0 Validation Report](RELEASES/v1.1-validation-report.md)
 - [v1.0.0 Validation Report](RELEASES/v1.0-validation-report.md)
 
 ## Using the handbook in a repository
@@ -121,4 +132,3 @@ Read 04–10, 21, 23, and 25–34.
 Repository instructions SHOULD link to the applicable owning chapters and state only stricter or project-specific requirements. They MUST NOT copy or weaken company standards.
 
 When a rule is unclear, open a handbook issue that states the affected decision, ambiguous text, and proposed evidence. Do not invent a local interpretation for scientific, security, or client-data requirements.
-

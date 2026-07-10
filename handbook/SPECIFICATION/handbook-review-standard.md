@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | WeianData |
 | Effective date | 2026-07-10 |
@@ -13,7 +13,7 @@ This standard defines the evidence and review gates required to approve and publ
 
 ## 2. Roles
 
-One person MAY hold multiple roles, but each role's decision MUST remain explicit.
+One person MAY hold multiple roles, but each role's decision MUST remain explicit. Role separation is risk-based, not headcount-based.
 
 | Role | Responsibility |
 |---|---|
@@ -25,6 +25,8 @@ One person MAY hold multiple roles, but each role's decision MUST remain explici
 
 An AI agent MAY act as author, analyst, or automated reviewer. It MUST NOT act as the accountable approver.
 
+For a founder-led one-person operation, the founder MAY perform author, domain reviewer, security reviewer, editor, and accountable-approver roles for R1 and R2 work. Before an R3 result is relied on by a client or the public, a second qualified human MUST review the affected scientific, security, or client-data conclusion. A qualified client reviewer or contracted specialist MAY satisfy this requirement when the review scope and evidence are recorded.
+
 ## 3. Review risk classes
 
 | Class | Examples | Minimum review |
@@ -35,6 +37,8 @@ An AI agent MAY act as author, analyst, or automated reviewer. It MUST NOT act a
 | R4 - Constitutional | Authority, architecture, incompatible standard | All applicable reviews and major-version decision |
 
 If uncertain, use the higher class.
+
+The [operating modes profile](../profiles/operating-modes.md) maps these risk classes to Lightweight, Standard, and Controlled execution. The profile selects existing gates and does not create new review authority.
 
 ## 4. Review gates
 
@@ -125,6 +129,8 @@ The report MUST distinguish checks actually performed from recommended future ch
 ## 8. Exceptions
 
 An exception MUST record the requirement, rationale, risk, compensating control, owner, expiration or review date, and approval. Exceptions MUST be narrow and temporary. An exception MUST NOT override the master specification or authoring constitution.
+
+An exception MUST NOT be used to replace the second qualified human review required before external reliance on an R3 result. If that reviewer is unavailable, the work MAY continue internally only when it remains reversible and does not expose restricted data or create external reliance.
 
 ## 9. Approval criteria
 

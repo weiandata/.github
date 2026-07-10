@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | Organization Administrator |
 | Effective date | 2026-07-10 |
@@ -31,7 +31,7 @@ Repository administration is a company control. No repository should depend on a
 
 Repository creation MUST record purpose, owner, visibility, data classification, license or proprietary status, and expected lifecycle. Company intellectual property MUST be stored in a company-controlled organization unless a contract requires a client-controlled repository.
 
-Administrative access MUST be limited and protected with strong authentication. Protected-branch rules and required reviews MUST be configured for active repositories. Access MUST be reviewed when people, contracts, or project roles change.
+Administrative access MUST be limited and protected with strong authentication. Active repositories MUST implement the controls owned by the [repository standards](04-repository-standards.md) and [Git standards](05-git-standards.md). Access MUST be reviewed when people, contracts, or project roles change.
 
 Changing a repository from private to public, transferring ownership, deleting it, or removing material history requires accountable approval plus security, client-data, intellectual-property, and license review.
 
@@ -67,4 +67,3 @@ Repositories are governed company assets with explicit ownership, access, visibi
 
 - [Repository Standards](04-repository-standards.md)
 - [Open Source Policy](26-open-source-policy.md)
-

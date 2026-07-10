@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Approved |
 | Owner | Repository Owner |
 | Effective date | 2026-07-10 |
@@ -29,7 +29,7 @@ An issue should define an observable problem and completion condition without pr
 
 ## 5. Standards
 
-An engineering issue MUST include:
+Standard and Controlled engineering issues MUST include:
 
 ```markdown
 ## Problem or decision
@@ -56,6 +56,8 @@ An engineering issue MUST include:
 ```
 
 Defects MUST include a minimal reproduction or explain why one cannot be shared. Attachments MUST use synthetic, public, or explicitly authorized data. Security vulnerabilities and restricted client information MUST be reported through approved private channels.
+
+Lightweight work MAY use a compact issue or pull-request brief containing only outcome, acceptance evidence, risk classification, and owner. The [review standard](../SPECIFICATION/handbook-review-standard.md) owns risk classification; the [operating modes profile](../profiles/operating-modes.md) maps it to evidence depth.
 
 ## 6. Best Practices
 
@@ -87,4 +89,3 @@ A good issue creates a bounded, evidence-driven starting point for the engineeri
 
 - [Engineering Workflow](03-engineering-workflow.md)
 - [Client Data Policy](22-client-data-policy.md)
-
