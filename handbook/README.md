@@ -125,6 +125,7 @@ Read 04–10, 21, 23, 25–34, and 36.
 ## Release information
 
 - [Changelog](CHANGELOG.md)
+- [v1.2.0 Validation Report](RELEASES/v1.2-validation-report.md)
 - [v1.1.0 Validation Report](RELEASES/v1.1-validation-report.md)
 - [v1.0.0 Validation Report](RELEASES/v1.0-validation-report.md)
 
