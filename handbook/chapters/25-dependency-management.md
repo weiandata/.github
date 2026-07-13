@@ -41,6 +41,10 @@ Every repository MUST maintain machine-readable dependency manifests and a deter
 
 Dependencies MUST come from approved sources and use version constraints that support reproducibility. Automated vulnerability alerts SHOULD be enabled. Risk-based updates MUST be tested before release, and urgent vulnerabilities MUST have an owner, disposition, and mitigation record. Unused dependencies MUST be removed.
 
+Distributed R packages MUST also maintain the dependency copyright boundary
+notice required by the
+[Copyright and Licensing Policy](36-copyright-and-licensing-policy.md).
+
 ## 6. Best Practices
 
 - Prefer standard libraries and mature, narrowly scoped packages.
@@ -71,4 +75,4 @@ Dependencies are controlled lifecycle commitments, not free implementation short
 
 - [Security Policy](21-security-policy.md)
 - [Reproducibility Standard](13-reproducibility-standard.md)
-
+- [Copyright and Licensing Policy](36-copyright-and-licensing-policy.md)

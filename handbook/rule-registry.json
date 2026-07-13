@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "handbook_version": "1.1.0",
+  "handbook_version": "1.2.0",
   "normative": false,
   "description": "Non-normative index of stable rule identifiers. The linked Markdown source is authoritative.",
   "rules": [
@@ -38,6 +38,7 @@
     {"id": "WD-NAME-001", "topic": "naming", "owner": "chapters/32-naming-convention.md", "source": "chapters/32-naming-convention.md#5-standards", "risk": "R1", "applies_to": ["file", "repository", "branch", "code", "data"], "summary": "Use stable, descriptive, ecosystem-compatible names and avoid temporary identifiers."},
     {"id": "WD-FILE-001", "topic": "file-structure", "owner": "chapters/33-file-structure-convention.md", "source": "chapters/33-file-structure-convention.md#5-standards", "risk": "R1", "applies_to": ["repository", "analysis-project"], "summary": "Separate source, configuration, inputs, derived data, tests, evidence, and generated artifacts by lifecycle."},
     {"id": "WD-VERSION-001", "topic": "versioning", "owner": "chapters/34-versioning-guide.md", "source": "chapters/34-versioning-guide.md#5-standards", "risk": "R2", "applies_to": ["release", "schema", "model", "handbook"], "summary": "Use immutable Semantic Versioning based on public and scientific compatibility."},
-    {"id": "WD-GLOSSARY-001", "topic": "terminology", "owner": "chapters/35-glossary.md", "source": "chapters/35-glossary.md#5-standards", "risk": "R1", "applies_to": ["all"], "summary": "Use the shared glossary for consistent human and AI interpretation."}
+    {"id": "WD-GLOSSARY-001", "topic": "terminology", "owner": "chapters/35-glossary.md", "source": "chapters/35-glossary.md#5-standards", "risk": "R1", "applies_to": ["all"], "summary": "Use the shared glossary for consistent human and AI interpretation."},
+    {"id": "WD-LICENSE-001", "topic": "copyright-and-licensing", "owner": "chapters/36-copyright-and-licensing-policy.md", "source": "chapters/36-copyright-and-licensing-policy.md#5-standards", "risk": "R3", "applies_to": ["repository", "r-package", "static-website", "release"], "summary": "Use the controlled company identity, GPL version 2 or later for R packages, and the canonical proprietary profile for websites and internal frameworks."}
   ]
 }

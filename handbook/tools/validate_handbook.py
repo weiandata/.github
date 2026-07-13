@@ -258,7 +258,7 @@ def validate_markdown(all_markdown: list[Path], heading_cache: dict[Path, set[st
             errors.append(f"exact normative duplication across files: {locations}: {statement}")
 
 
-def validate() -> tuple[list[str], int, int]:
+def validate() -> tuple[list[str], int, int, str]:
     errors: list[str] = []
     manifest = load_json(MANIFEST_PATH, errors)
     registry = load_json(REGISTRY_PATH, errors)
@@ -271,17 +271,18 @@ def validate() -> tuple[list[str], int, int]:
     rule_count = validate_registry(registry, heading_cache, errors) if registry else 0
     if manifest and registry and manifest.get("handbook_version") != registry.get("handbook_version"):
         errors.append("manifest and rule registry handbook versions differ")
-    return errors, len(chapters), rule_count
+    handbook_version = manifest.get("handbook_version", "unknown") if manifest else "unknown"
+    return errors, len(chapters), rule_count, handbook_version
 
 
 def main() -> int:
-    errors, chapter_count, rule_count = validate()
+    errors, chapter_count, rule_count, handbook_version = validate()
     if errors:
         print(f"FAIL: {len(errors)} handbook validation error(s)")
         for error in errors:
             print(f"- {error}")
         return 1
-    print("PASS: handbook v1.1 publication contract is satisfied")
+    print(f"PASS: handbook v{handbook_version} publication contract is satisfied")
     print(f"Markdown files checked: {len(markdown_files())}")
     print(f"Chapter files checked: {chapter_count}")
     print(f"Stable rule identifiers checked: {rule_count}")
@@ -292,4 +293,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

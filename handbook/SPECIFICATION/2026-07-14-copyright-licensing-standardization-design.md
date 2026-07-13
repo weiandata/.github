@@ -15,11 +15,13 @@ new repositories start compliant.
 
 ## 2. Canonical identity
 
-- Chinese legal name: `惟安数据科技（北京）有限公司`
+- Chinese legal name: the exact UTF-8 value recorded in the controlled
+  repository-level `LEGAL-IDENTITY.md` registry
 - English legal name: `WEIAN DATA TECH (Beijing) Co., Ltd.`
 - Public brand: `WEIAN DATA`
 - Copyright holder: `WEIAN DATA TECH (Beijing) Co., Ltd.`
-- Individual author and maintainer: `Kunxiang Ma` / `马崑翔`
+- Individual author and maintainer: `Kunxiang Ma`, with the exact Chinese name
+  recorded in `LEGAL-IDENTITY.md`
 - Maintainer email: `makunxiang@weiandata.com`
 - Company, security, and licensing contact: `contact@weiandata.com`
 - GitHub organization: `weiandata`

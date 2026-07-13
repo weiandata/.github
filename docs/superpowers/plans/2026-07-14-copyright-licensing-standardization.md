@@ -10,7 +10,7 @@
 
 ## Global Constraints
 
-- Chinese legal name: `惟安数据科技（北京）有限公司`.
+- Chinese legal name: the exact UTF-8 value recorded in `.github/LEGAL-IDENTITY.md`.
 - English legal name and copyright holder: `WEIAN DATA TECH (Beijing) Co., Ltd.`.
 - Brand: `WEIAN DATA`.
 - Human author and maintainer: `Kunxiang Ma` / `马崑翔`.
@@ -29,6 +29,7 @@
 
 **Files:**
 - Create: `.github/handbook/chapters/36-copyright-and-licensing-policy.md`
+- Create: `.github/LEGAL-IDENTITY.md`
 - Create: `.github/CODEOWNERS`
 - Modify: `.github/PROPRIETARY.md`
 - Modify: `.github/README.md`
@@ -37,6 +38,7 @@
 - Modify: `.github/handbook/CHANGELOG.md`
 - Modify: `.github/handbook/handbook-manifest.json`
 - Modify: `.github/handbook/rule-registry.json`
+- Modify: `.github/handbook/tools/validate_handbook.py`
 - Modify: `.github/handbook/chapters/04-repository-standards.md`
 - Modify: `.github/handbook/chapters/25-dependency-management.md`
 - Modify: `.github/handbook/chapters/26-open-source-policy.md`
@@ -50,7 +52,7 @@
 
 - [ ] **Step 1: Add the owning policy chapter**
 
-Write all ten required chapter sections. Its Standards section must define the canonical identity, GPL R-package requirements, proprietary repository requirements, maintainer/contact separation, dependency-boundary notice, exceptions, and precedence.
+Write all ten required chapter sections. Its Standards section must link to the controlled repository-level legal-identity registry, then define GPL R-package requirements, proprietary repository requirements, maintainer/contact separation, dependency-boundary notice, exceptions, and precedence. The registry stores the exact UTF-8 Chinese names because the Handbook validator requires English-only content under `handbook/`.
 
 - [ ] **Step 2: Link existing chapters to the owning policy**
 

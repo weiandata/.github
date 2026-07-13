@@ -106,9 +106,12 @@ contact@weiandata.com
 
 ---
 
-## License
+## Copyright and licensing
 
-Unless otherwise specified, repositories are released under their respective licenses.
+Copyright (c) 2026 WEIAN DATA TECH (Beijing) Co., Ltd. All rights reserved.
+R packages are released under GPL version 2 or later; websites and internal
+frameworks are proprietary. Individual repositories carry their applicable
+notice.
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "handbook_version": "1.1.0",
+  "handbook_version": "1.2.0",
   "status": "published",
   "normative": false,
   "authority": [
@@ -47,7 +47,8 @@
     {"number": "32", "id": "naming-convention", "path": "chapters/32-naming-convention.md", "topic": "names", "owner": "WeianData Engineering", "default_risk": "R1"},
     {"number": "33", "id": "file-structure-convention", "path": "chapters/33-file-structure-convention.md", "topic": "paths and layout", "owner": "WeianData Engineering", "default_risk": "R1"},
     {"number": "34", "id": "versioning-guide", "path": "chapters/34-versioning-guide.md", "topic": "version semantics", "owner": "WeianData Engineering", "default_risk": "R2"},
-    {"number": "35", "id": "glossary", "path": "chapters/35-glossary.md", "topic": "defined terms", "owner": "Knowledge Owner", "default_risk": "R1"}
+    {"number": "35", "id": "glossary", "path": "chapters/35-glossary.md", "topic": "defined terms", "owner": "Knowledge Owner", "default_risk": "R1"},
+    {"number": "36", "id": "copyright-and-licensing-policy", "path": "chapters/36-copyright-and-licensing-policy.md", "topic": "copyright identity and licensing profiles", "owner": "WeianData Engineering", "default_risk": "R3"}
   ],
   "profiles": [
     {"id": "operating-modes", "path": "profiles/operating-modes.md", "normative": false},
@@ -60,11 +61,11 @@
   ],
   "task_routes": {
     "lightweight_change": {"mode": "Lightweight", "profile": "profiles/operating-modes.md", "required_chapters": ["03", "05", "29", "30"]},
-    "software_change": {"mode": "Standard", "profile": "profiles/operating-modes.md", "required_chapters": ["03", "04", "05", "06", "08", "09", "13", "25", "30"]},
+    "software_change": {"mode": "Standard", "profile": "profiles/operating-modes.md", "required_chapters": ["03", "04", "05", "06", "08", "09", "13", "25", "30", "36"]},
     "statistical_analysis": {"mode": "Controlled", "profile": "profiles/operating-modes.md", "required_chapters": ["03", "08", "09", "11", "12", "13", "14", "16", "19", "30"]},
-    "client_tool_delivery": {"mode": "Controlled", "profile": "profiles/client-delivery-profile.md", "required_chapters": ["03", "08", "09", "10", "11", "13", "16", "18", "19", "21", "22", "24", "25", "30"]},
+    "client_tool_delivery": {"mode": "Controlled", "profile": "profiles/client-delivery-profile.md", "required_chapters": ["03", "08", "09", "10", "11", "13", "16", "18", "19", "21", "22", "24", "25", "30", "36"]},
     "ai_agent_task": {"mode": "Standard", "profile": "profiles/operating-modes.md", "required_chapters": ["16", "17", "18", "19", "20", "22"]},
     "security_change": {"mode": "Controlled", "profile": "profiles/operating-modes.md", "required_chapters": ["03", "16", "19", "21", "22", "24", "25", "30"]},
-    "open_source_release": {"mode": "Controlled", "profile": "profiles/operating-modes.md", "required_chapters": ["04", "05", "09", "10", "21", "23", "25", "26", "28", "30", "31", "34"]}
+    "open_source_release": {"mode": "Controlled", "profile": "profiles/operating-modes.md", "required_chapters": ["04", "05", "09", "10", "21", "23", "25", "26", "28", "30", "31", "34", "36"]}
   }
 }

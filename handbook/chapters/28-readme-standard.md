@@ -39,7 +39,9 @@ A README MUST include, in a sensible order:
 7. architecture or documentation links;
 8. data, security, and privacy boundaries;
 9. contribution and support paths;
-10. license or proprietary notice, owner, and citation where applicable.
+10. profile-selected license or proprietary notice, owner, and citation where
+    applicable, consistent with the
+    [Copyright and Licensing Policy](36-copyright-and-licensing-policy.md).
 
 Badges MUST reflect automated facts and MUST NOT substitute for explanation. Claims about performance or statistical validity MUST link to reproducible evidence.
 
@@ -81,4 +83,4 @@ The README is the reliable front door to a repository, not its complete document
 
 - [Documentation Standards](09-documentation-standards.md)
 - [Open Source Policy](26-open-source-policy.md)
-
+- [Copyright and Licensing Policy](36-copyright-and-licensing-policy.md)

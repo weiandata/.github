@@ -2,6 +2,26 @@
 
 All notable changes to the WeianData Engineering Handbook are recorded here. The handbook uses Semantic Versioning.
 
+## [1.2.0] - 2026-07-14
+
+### Added
+
+- Canonical legal-identity registry for company, maintainer, contact, and
+  CODEOWNER values.
+- Copyright and Licensing Policy with the stable rule identifier
+  `WD-LICENSE-001`.
+- Mandatory GPL version 2 or later profile for R packages, including dependency
+  copyright boundary notices.
+- Canonical proprietary profile for websites, internal frameworks, the
+  organization policy repository, and the repository template.
+
+### Changed
+
+- Repository, dependency, open-source, template, and README standards now link
+  to the single owning copyright and licensing policy.
+- Software, client-delivery, and open-source-release routes now include the
+  copyright and licensing chapter.
+
 ## [1.1.0] - 2026-07-10
 
 ### Added

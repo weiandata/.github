@@ -23,7 +23,8 @@ Open source can improve scientific transparency, trust, reuse, and professional 
 
 - Publish only content WeianData has the right and intent to share.
 - Separate reusable methods from client-specific code and data.
-- Choose a license that matches the intended ecosystem and obligations.
+- Apply the repository profile selected by the
+  [Copyright and Licensing Policy](36-copyright-and-licensing-policy.md).
 - Release a maintainable project, not an unexplained code dump.
 - Handle vulnerabilities and community participation responsibly.
 
@@ -41,6 +42,10 @@ Public release MUST receive accountable approval and confirm:
 - maintenance owner, support status, and release process.
 
 Client-specific repositories MUST NOT be open-sourced without explicit written authorization and independent review. Public datasets or examples MUST have clear rights, provenance, and disclosure review. External contributions made on behalf of WeianData MUST respect employer, client, and project agreements.
+
+R packages approved for public release MUST use the R-package profile owned by
+the Copyright and Licensing Policy. Public release approval does not authorize
+a repository-local license substitution.
 
 ## 6. Best Practices
 
@@ -72,4 +77,4 @@ WeianData publishes open source only when rights, safety, scientific quality, do
 
 - [Community Guidelines](31-community-guidelines.md)
 - [Release Process](10-release-process.md)
-
+- [Copyright and Licensing Policy](36-copyright-and-licensing-policy.md)

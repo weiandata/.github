@@ -33,7 +33,8 @@ Every active repository MUST satisfy a baseline proportionate to its [operating 
 
 - a README conforming to the [README standard](28-readme-standard.md);
 - ownership and maintenance status;
-- a license or an explicit proprietary notice;
+- the profile-selected license or proprietary notice required by the
+  [Copyright and Licensing Policy](36-copyright-and-licensing-policy.md);
 - contribution and review instructions;
 - security reporting guidance appropriate to visibility;
 - dependency manifests and lock or snapshot evidence;
@@ -75,3 +76,4 @@ Every repository must be owned, reproducible, reviewable, and safe to maintain i
 - [Repository Template](27-repository-template.md)
 - [File Structure Convention](33-file-structure-convention.md)
 - [Repository Governance](23-repository-governance.md)
+- [Copyright and Licensing Policy](36-copyright-and-licensing-policy.md)

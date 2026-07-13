@@ -17,7 +17,8 @@ It applies to new internal, client, research, product, and open-source repositor
 
 ## 3. Philosophy
 
-A template should encode safe defaults while leaving language and project choices explicit.
+A template should encode safe defaults while making the approved project
+profile explicit.
 
 ## 4. Principles
 
@@ -33,7 +34,7 @@ The [repository standards](04-repository-standards.md) own the required capabili
 ```text
 .
 ├── README.md
-├── LICENSE or PROPRIETARY.md
+├── profile-selected LICENSE or PROPRIETARY.md
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
 ├── SECURITY.md
@@ -53,6 +54,13 @@ The [repository standards](04-repository-standards.md) own the required capabili
 ```
 
 The scaffold MUST be tailored to the selected operating mode and language ecosystem. It MUST NOT be interpreted as requiring an irrelevant directory or tool. Statistical repositories use the validation location required by their owning standards. Directories without a project need SHOULD be omitted rather than left empty.
+
+The template repository itself is proprietary. Generated repositories MUST
+select the assets required by the
+[Copyright and Licensing Policy](36-copyright-and-licensing-policy.md): R
+packages use the GPL profile with `inst/COPYRIGHTS`; static websites and
+WAEF-style internal frameworks use the proprietary profile. Other project
+types require accountable approval before publication.
 
 ## 6. Best Practices
 
@@ -84,3 +92,4 @@ The repository template provides a small, safe, reproducible starting point adap
 
 - [Repository Standards](04-repository-standards.md)
 - [File Structure Convention](33-file-structure-convention.md)
+- [Copyright and Licensing Policy](36-copyright-and-licensing-policy.md)

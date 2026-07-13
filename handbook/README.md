@@ -2,10 +2,10 @@
 
 | Field | Value |
 |---|---|
-| Release | v1.1.0 |
+| Release | v1.2.0 |
 | Status | Published |
 | Owner | WeianData |
-| Publication date | 2026-07-10 |
+| Publication date | 2026-07-14 |
 
 The WeianData Engineering Handbook is the company's engineering operating system. It defines how humans and AI agents build, validate, secure, deliver, and preserve trustworthy software for trustworthy measurement.
 
@@ -48,7 +48,7 @@ Start with the [Client Delivery Profile](profiles/client-delivery-profile.md), t
 
 ### New open-source repository
 
-Read 04–10, 21, 23, and 25–34.
+Read 04–10, 21, 23, 25–34, and 36.
 
 ## Part I: Engineering Principles
 
@@ -120,6 +120,7 @@ Read 04–10, 21, 23, and 25–34.
 | 33 | [File Structure Convention](chapters/33-file-structure-convention.md) | Where does each kind of file belong? |
 | 34 | [Versioning Guide](chapters/34-versioning-guide.md) | How are compatibility changes identified? |
 | 35 | [Glossary](chapters/35-glossary.md) | What do shared terms mean? |
+| 36 | [Copyright and Licensing Policy](chapters/36-copyright-and-licensing-policy.md) | Which identity and licensing profile must a repository use? |
 
 ## Release information
 
