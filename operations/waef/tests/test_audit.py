@@ -246,8 +246,11 @@ class AuditTests(unittest.TestCase):
         )
         self.assertNotIn("repositories: |", read_block)
         self.assertIn("permission-contents: read", read_block)
+        self.assertIn("secrets.WAEF_APP_ID", read_block)
+        self.assertNotIn("secrets.WAEF_AUTOMATION_APP_ID", read_block)
         self.assertIn("repositories: |", issue_block)
         self.assertIn("permission-issues: write", issue_block)
+        self.assertIn("secrets.WAEF_AUTOMATION_APP_ID", issue_block)
         self.assertIn("WAEF_ISSUE_TOKEN", workflow)
         self.assertNotIn("upload-artifact", workflow)
 

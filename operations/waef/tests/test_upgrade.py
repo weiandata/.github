@@ -281,6 +281,8 @@ class UpgradeTests(unittest.TestCase):
         self.assertIn("permission-contents: write", workflow)
         self.assertIn("permission-pull-requests: write", workflow)
         self.assertIn("permission-workflows: write", workflow)
+        self.assertIn("secrets.WAEF_AUTOMATION_APP_ID", workflow)
+        self.assertNotIn("secrets.WAEF_APP_ID", workflow)
         self.assertNotIn("/merge", workflow)
         self.assertNotIn("force:", workflow)
 

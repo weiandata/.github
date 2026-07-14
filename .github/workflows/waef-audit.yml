@@ -34,8 +34,8 @@ jobs:
         id: audit-issue-token
         uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
         with:
-          app-id: ${{ secrets.WAEF_APP_ID }}
-          private-key: ${{ secrets.WAEF_APP_PRIVATE_KEY }}
+          app-id: ${{ secrets.WAEF_AUTOMATION_APP_ID }}
+          private-key: ${{ secrets.WAEF_AUTOMATION_APP_PRIVATE_KEY }}
           owner: weiandata
           repositories: |
             .github
