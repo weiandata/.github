@@ -16,7 +16,7 @@ from urllib.parse import quote
 from operations.waef.audit import _parse_flat_yaml
 from operations.waef.github_client import GitHubClient
 from operations.waef.models import RepositoryRecord, load_inventory
-from operations.waef.render_adapter import update_generated_version
+from operations.waef.render_adapter import render_compliance_workflow, update_generated_version
 
 
 ORGANIZATION = "weiandata"
@@ -48,6 +48,8 @@ class UpgradeChange:
     tag: str
     commit: str
     migration_url: str
+    changed_rules: str
+    migration_steps: str
     branch: str
     commit_message: str
     pull_request_title: str
@@ -66,7 +68,9 @@ class UpgradeChange:
             f"- New pin: `{self.version}` / `{self.tag}` / `{self.commit}`\n"
             f"- Migration instructions: {self.migration_url}\n\n"
             "### Changed MUST rules\n\n"
-            "Review every changed obligation in the linked migration instructions. "
+            f"{self.changed_rules}\n\n"
+            "### Migration steps\n\n"
+            f"{self.migration_steps}\n\n"
             "Automation changes only WAEF-owned adapters and exact pins; it does not approve semantic changes.\n\n"
             "### Validation results\n\n"
             "- release tag/SHA preflight: passed by the dispatch workflow\n"
@@ -97,16 +101,24 @@ def build_upgrade(
     tag: str,
     commit: str,
     migration_url: str,
+    changed_rules: str,
+    migration_steps: str,
 ) -> UpgradeChange:
     _validate_release(version, tag, commit)
     if not migration_url.startswith("https://github.com/weiandata/WAEF/"):
         raise ValueError("migration_url must point to the private weiandata/WAEF repository")
+    changed_rules = changed_rules.strip()
+    migration_steps = migration_steps.strip()
+    if not changed_rules or not migration_steps:
+        raise ValueError("changed-rules and migration-steps summary values are required")
     return UpgradeChange(
         repository=repo,
         version=version,
         tag=tag,
         commit=commit,
         migration_url=migration_url,
+        changed_rules=changed_rules,
+        migration_steps=migration_steps,
         branch=f"automation/waef-{version}",
         commit_message=f"chore: upgrade WAEF to {version}",
         pull_request_title=f"chore: upgrade WAEF to {version}",
@@ -142,23 +154,7 @@ def render_lock(
 
 
 def render_workflow(commit: str) -> str:
-    if not COMMIT_RE.fullmatch(commit):
-        raise ValueError("workflow commit must be a full lowercase 40-character SHA")
-    return (
-        "name: WAEF Compliance\n"
-        "on: [pull_request]\n"
-        "permissions:\n"
-        "  contents: read\n"
-        "jobs:\n"
-        "  compliance:\n"
-        f"    uses: weiandata/WAEF/.github/workflows/compliance.yml@{commit}\n"
-        "    with:\n"
-        f"      waef_commit: {commit}\n"
-        "      lock_path: .waef/waef.lock.yml\n"
-        "    secrets:\n"
-        "      WAEF_APP_ID: ${{ secrets.WAEF_APP_ID }}\n"
-        "      WAEF_APP_PRIVATE_KEY: ${{ secrets.WAEF_APP_PRIVATE_KEY }}\n"
-    )
+    return render_compliance_workflow(commit)
 
 
 def _current_lock(files: Mapping[str, str]) -> dict[str, Any]:
@@ -399,6 +395,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--tag", required=True)
     parser.add_argument("--commit", required=True)
     parser.add_argument("--migration-url", required=True)
+    parser.add_argument("--changed-rules", required=True)
+    parser.add_argument("--migration-steps", required=True)
     parser.add_argument("--validate-only", action="store_true")
     parser.add_argument(
         "--inventory", default=str(Path(__file__).with_name("repositories.json"))
@@ -406,7 +404,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     repositories = load_inventory(args.inventory)
     changes = [
-        build_upgrade(repository, args.version, args.tag, args.commit, args.migration_url)
+        build_upgrade(
+            repository,
+            args.version,
+            args.tag,
+            args.commit,
+            args.migration_url,
+            args.changed_rules,
+            args.migration_steps,
+        )
         for repository in repositories
     ]
     if args.validate_only:

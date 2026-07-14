@@ -18,6 +18,7 @@ from zoneinfo import ZoneInfo
 
 from operations.waef.github_client import GitHubClient
 from operations.waef.models import AuditFinding, RepositoryRecord, load_inventory
+from operations.waef.render_adapter import render_compliance_workflow
 
 
 ORGANIZATION = "weiandata"
@@ -34,6 +35,7 @@ REQUIRED_CODEOWNER_PATTERNS = {
 LICENSING_PATTERNS = ("/PROPRIETARY.md", "/LICENSE", "/COPYRIGHT", "/DESCRIPTION")
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 EXPIRES_RE = re.compile(r"^\s*expires:\s*['\"]?(\d{4}-\d{2}-\d{2})['\"]?\s*$", re.MULTILINE)
+WORKFLOW_PATH = ".github/workflows/waef-compliance.yml"
 
 
 @dataclass(frozen=True, slots=True)
@@ -232,15 +234,13 @@ def _validate_project(
 def _validate_workflow(
     repository: str, text: str | None, lock: dict[str, Any] | None
 ) -> list[AuditFinding]:
-    path = ".github/workflows/waef-compliance.yml"
+    path = WORKFLOW_PATH
     if text is None:
         return [_finding(repository, "WAEF-AUDIT-WORKFLOW", path, "WAEF workflow caller is missing")]
     if lock is None or not isinstance(lock.get("commit"), str):
         return []
     commit = lock["commit"]
-    expected_use = f"uses: weiandata/WAEF/.github/workflows/compliance.yml@{commit}"
-    expected_input = f"waef_commit: {commit}"
-    if text.count(expected_use) != 1 or text.count(expected_input) != 1:
+    if text != render_compliance_workflow(commit):
         return [
             _finding(
                 repository,
@@ -406,6 +406,35 @@ def _validate_check(
                 "WAEF-AUDIT-CHECK",
                 default_branch,
                 f"default branch must have one successful {record.expected_waef_check!r} check",
+            )
+        ]
+    workflow_name = quote(Path(WORKFLOW_PATH).name, safe="")
+    workflow_response = client.request(
+        "GET",
+        f"/repos/{ORGANIZATION}/{quote(record.name, safe='')}/actions/workflows/{workflow_name}"
+        f"/runs?head_sha={quote(sha, safe='')}&status=completed&per_page=100",
+    )
+    workflow_runs = (
+        workflow_response.get("workflow_runs", [])
+        if isinstance(workflow_response, dict)
+        else []
+    )
+    source_runs = [
+        run
+        for run in workflow_runs
+        if run.get("path") == WORKFLOW_PATH
+        and run.get("head_sha") == sha
+        and run.get("name") == record.expected_waef_check
+        and run.get("status") == "completed"
+        and run.get("conclusion") == "success"
+    ]
+    if len(source_runs) != 1:
+        return [
+            _finding(
+                record.name,
+                "WAEF-AUDIT-CHECK",
+                default_branch,
+                f"default branch must have one successful {record.expected_waef_check!r} run from {WORKFLOW_PATH}",
             )
         ]
     return []

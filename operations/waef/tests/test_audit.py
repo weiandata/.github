@@ -69,6 +69,8 @@ class FakeGitHubClient:
             return {"commit": {"sha": self.fixture["head_sha"]}}
         if method == "GET" and "/check-runs?" in path:
             return {"check_runs": self.fixture["check_runs"]}
+        if method == "GET" and "/actions/workflows/" in path and "/runs?" in path:
+            return {"workflow_runs": self.fixture["workflow_runs"]}
         if method == "GET" and "/git/ref/tags/" in path:
             self.tag_reads += 1
             tag = unquote(path.rsplit("/", 1)[1])
@@ -227,6 +229,38 @@ class AuditTests(unittest.TestCase):
         self.assertEqual(1, len(json.loads(report.to_json())["findings"]))
         self.assertIn("WAEF-AUDIT-AGENTS", report.to_markdown())
 
+    def test_commented_caller_strings_do_not_satisfy_workflow_validation(self):
+        fixture = load_fixture("compliant-repository.json")
+        commit = "993ef1e41306146f62881106ab17cae2e23162f5"
+        fixture["files"][".github/workflows/waef-compliance.yml"] = (
+            f"# uses: weiandata/WAEF/.github/workflows/compliance.yml@{commit}\n"
+            f"# waef_commit: {commit}\n"
+        )
+        report = audit_organization(
+            FakeGitHubClient(fixture), [record()], TODAY, synchronize_issues=False
+        )
+        self.assertIn(
+            "WAEF-AUDIT-WORKFLOW", {finding.rule_id for finding in report.findings}
+        )
+
+    def test_same_name_check_from_another_workflow_is_rejected(self):
+        fixture = load_fixture("compliant-repository.json")
+        fixture["workflow_runs"] = [
+            {
+                "name": "WAEF Compliance",
+                "path": ".github/workflows/spoof.yml",
+                "head_sha": fixture["head_sha"],
+                "conclusion": "success",
+                "status": "completed",
+            }
+        ]
+        report = audit_organization(
+            FakeGitHubClient(fixture), [record()], TODAY, synchronize_issues=False
+        )
+        self.assertIn(
+            "WAEF-AUDIT-CHECK", {finding.rule_id for finding in report.findings}
+        )
+
     def test_workflow_uses_immutable_actions_and_split_token_scopes(self):
         workflow = (ROOT / ".github" / "workflows" / "waef-audit.yml").read_text(
             encoding="utf-8"
@@ -245,6 +279,7 @@ class AuditTests(unittest.TestCase):
             "- name: Create repository-limited Issue token", 1
         )
         self.assertNotIn("repositories: |", read_block)
+        self.assertIn("permission-actions: read", read_block)
         self.assertIn("permission-contents: read", read_block)
         self.assertIn("secrets.WAEF_APP_ID", read_block)
         self.assertNotIn("secrets.WAEF_AUTOMATION_APP_ID", read_block)

@@ -11,17 +11,19 @@ branch and verifies:
 - the WAEF bootstrap in `AGENTS.md`;
 - the exact `.waef/waef.lock.yml` and selected profiles;
 - `.waef/project.yml`, including the reviewed accountable owner;
-- the immutable private reusable-workflow caller;
+- the byte-exact immutable private reusable-workflow caller;
 - governance coverage in `CODEOWNERS`;
 - the WAEF tag-to-commit provenance;
-- the latest default-branch `WAEF Compliance` conclusion; and
+- exactly one successful default-branch `WAEF Compliance` check and a
+  successful run bound to `.github/workflows/waef-compliance.yml`; and
 - exception expiration dates.
 
 The workflow mints two short-lived tokens. The organization-wide audit token is
-read-only so it can discover an unregistered private repository; a second token
-has Issues write access but is narrowed to the eleven reviewed repositories.
-The GitHub App and its installation are not created by this change and require
-the separate Organization Owner approval described in the operations plan.
+read-only so it can discover an unregistered private repository and read the
+Actions workflow-run source; a second token has Issues write access but is
+narrowed to the eleven reviewed repositories. Enabling Actions read on the live
+Read App remains a separate Organization Owner approval described in
+`GITHUB_APP.md`.
 
 Findings have a stable fingerprint derived from repository, rule ID, and path.
 The first observation creates a labelled Issue; later observations update that

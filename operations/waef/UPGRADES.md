@@ -2,9 +2,11 @@
 
 The manual `WAEF Reviewed Upgrade Pull Requests` workflow is dispatched only
 after a WAEF release has an immutable tag, migration instructions, changelog,
-and validation evidence. Before any repository branch is written, the workflow
-runs the complete organization-automation test suite and verifies the private
-tag with `git ls-remote`.
+and validation evidence. The dispatcher must provide concrete changed-MUST-rule
+and migration-step summaries; blank summaries fail before authentication.
+Before any repository branch is written, the workflow runs the complete
+organization-automation test suite and verifies the private tag with
+`git ls-remote`, preferring the peeled commit for an annotated tag.
 
 For each registered repository the automation creates or reuses
 `automation/waef-MAJOR.MINOR`, then changes only:
@@ -28,6 +30,8 @@ upgrade is recorded in two ordinary, non-forced commits:
 2. add the newly assigned Pull Request URL to the lock.
 
 The final Pull Request has one logical purpose: adopt one exact WAEF release.
+Its body contains the supplied changed-rule and migration-step summaries rather
+than only linking reviewers to another document.
 Existing open upgrade Pull Requests are updated rather than duplicated. The
 automation never calls a merge endpoint, enables merge automation, pushes the
 default branch, or force-updates a ref.
@@ -37,3 +41,6 @@ repositories. It needs Metadata read, Contents write, Pull Requests write, and
 Workflows write because the governed caller lives under `.github/workflows/`.
 GitHub App creation, installation, and secret distribution remain a separate
 Organization Owner approval checkpoint.
+
+All dispatch inputs enter shell commands through quoted environment variables;
+GitHub expressions are never interpolated directly into shell source.

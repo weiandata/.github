@@ -26,6 +26,7 @@ jobs:
           app-id: ${{ secrets.WAEF_APP_ID }}
           private-key: ${{ secrets.WAEF_APP_PRIVATE_KEY }}
           owner: weiandata
+          permission-actions: read
           permission-checks: read
           permission-contents: read
           permission-metadata: read

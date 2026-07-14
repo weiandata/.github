@@ -13,7 +13,7 @@ permissions from following the read-only audit into future repositories.
 
 | App | Installation scope | Repository permissions | Repository secret names |
 |---|---|---|---|
-| `WeianData WAEF Read` | All repositories, including future repositories | Metadata read, Contents read, Checks read | `WAEF_APP_ID`, `WAEF_APP_PRIVATE_KEY` |
+| `WeianData WAEF Read` | All repositories, including future repositories | Metadata read, Contents read, Checks read, Actions read | `WAEF_APP_ID`, `WAEF_APP_PRIVATE_KEY` |
 | `WeianData WAEF Automation` | Only the eleven names in `repositories.json` | Metadata read, Contents write, Issues write, Pull requests write, Workflows write | `WAEF_AUTOMATION_APP_ID`, `WAEF_AUTOMATION_APP_PRIVATE_KEY` |
 
 Both Apps are owned by `weiandata`, are not public or Marketplace Apps, have no
@@ -34,7 +34,7 @@ with a narrower repository and permission set:
 | Function | App | Token repository scope | Token permissions |
 |---|---|---|---|
 | Consumer WAEF validation | Read | `WAEF` only | Metadata read, Contents read |
-| Organization discovery and audit | Read | All repositories visible to the installation | Metadata read, Contents read, Checks read |
+| Organization discovery and audit | Read | All repositories visible to the installation | Metadata read, Contents read, Checks read, Actions read |
 | Audit Issue reporting | Automation | Eleven registered repositories | Metadata read, Issues write |
 | Reviewed upgrades | Automation | Eleven registered repositories | Metadata read, Contents write, Pull requests write, Workflows write |
 
@@ -42,6 +42,13 @@ No token receives Administration permission. No token is persisted as an
 artifact, passed to untrusted code, or printed. Default-branch rules, required
 checks, and CODEOWNERS remain mandatory because Contents write permission is
 capable of creating Git objects and updating non-protected refs.
+
+The source-bound audit added during security review requires Actions read so a
+green check can be tied to `.github/workflows/waef-compliance.yml`, rather than
+accepted by name alone. The live Read App must not run this audit until an
+Organization Owner separately approves the Actions-read permission update and
+the installation accepts it. This Draft Pull Request does not change the live
+App.
 
 ## Secret distribution
 

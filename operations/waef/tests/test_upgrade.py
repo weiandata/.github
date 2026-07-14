@@ -1,4 +1,5 @@
 import base64
+import contextlib
 import io
 import unittest
 import urllib.error
@@ -8,6 +9,7 @@ from operations.waef.models import RepositoryRecord
 from operations.waef.upgrade import (
     ADAPTER_PATHS,
     build_upgrade,
+    main,
     render_lock,
     render_upgrade_files,
     render_workflow,
@@ -17,6 +19,8 @@ from operations.waef.upgrade import (
 
 OLD_COMMIT = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 NEW_COMMIT = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+CHANGED_RULES = "- WAEF-MUST-001 now requires signed validation evidence."
+MIGRATION_STEPS = "1. Regenerate the validation evidence before approval."
 ROOT = Path(__file__).resolve().parents[3]
 
 
@@ -168,6 +172,8 @@ class UpgradeTests(unittest.TestCase):
                         tag,
                         commit,
                         "https://github.com/weiandata/WAEF/blob/v4.0/docs/migration.md",
+                        CHANGED_RULES,
+                        MIGRATION_STEPS,
                     )
 
     def test_upgrade_change_has_one_review_only_purpose_and_migration_link(self):
@@ -177,6 +183,8 @@ class UpgradeTests(unittest.TestCase):
             "v4.0",
             NEW_COMMIT,
             "https://github.com/weiandata/WAEF/blob/v4.0/docs/migration.md",
+            CHANGED_RULES,
+            MIGRATION_STEPS,
         )
         body = change.pull_request_body(
             old_version="3.0", old_tag="v3.0", old_commit=OLD_COMMIT
@@ -189,6 +197,9 @@ class UpgradeTests(unittest.TestCase):
         self.assertIn(NEW_COMMIT, body)
         self.assertIn("docs/migration.md", body)
         self.assertIn("Changed MUST rules", body)
+        self.assertIn(CHANGED_RULES, body)
+        self.assertIn("Migration steps", body)
+        self.assertIn(MIGRATION_STEPS, body)
         self.assertIn("repository CI: pending", body)
         self.assertIn("git revert <merged-upgrade-commit-sha>", body)
         self.assertNotIn("auto-merge", body.casefold())
@@ -200,6 +211,8 @@ class UpgradeTests(unittest.TestCase):
             "v4.0",
             NEW_COMMIT,
             "https://github.com/weiandata/WAEF/blob/v4.0/docs/migration.md",
+            CHANGED_RULES,
+            MIGRATION_STEPS,
         )
         rendered = render_upgrade_files(
             change,
@@ -220,6 +233,8 @@ class UpgradeTests(unittest.TestCase):
             "v4.0",
             NEW_COMMIT,
             "https://github.com/weiandata/WAEF/blob/v4.0/docs/migration.md",
+            CHANGED_RULES,
+            MIGRATION_STEPS,
         )
         pull = upgrade_repository(client, change)
         self.assertEqual(13, pull["number"])
@@ -239,6 +254,8 @@ class UpgradeTests(unittest.TestCase):
             "v4.0",
             NEW_COMMIT,
             "https://github.com/weiandata/WAEF/blob/v4.0/docs/migration.md",
+            CHANGED_RULES,
+            MIGRATION_STEPS,
         )
         pull = upgrade_repository(client, change)
         self.assertEqual(12, pull["number"])
@@ -257,6 +274,8 @@ class UpgradeTests(unittest.TestCase):
             "v4.0",
             NEW_COMMIT,
             "https://github.com/weiandata/WAEF/blob/v4.0/docs/migration.md",
+            CHANGED_RULES,
+            MIGRATION_STEPS,
         )
         with self.assertRaisesRegex(ValueError, "contains non-WAEF paths"):
             upgrade_repository(client, change)
@@ -264,17 +283,98 @@ class UpgradeTests(unittest.TestCase):
             any(method in {"POST", "PATCH"} for method, _, _ in client.requests)
         )
 
+    def test_upgrade_rejects_missing_obligation_or_migration_summary(self):
+        for changed_rules, migration_steps in (
+            ("", MIGRATION_STEPS),
+            (CHANGED_RULES, "  "),
+        ):
+            with self.subTest(
+                changed_rules=changed_rules, migration_steps=migration_steps
+            ):
+                with self.assertRaisesRegex(ValueError, "summary"):
+                    build_upgrade(
+                        repository_record(),
+                        "4.0",
+                        "v4.0",
+                        NEW_COMMIT,
+                        "https://github.com/weiandata/WAEF/blob/v4.0/docs/migration.md",
+                        changed_rules,
+                        migration_steps,
+                    )
+
+    def test_validate_only_cli_accepts_review_summaries(self):
+        stdout = io.StringIO()
+        with contextlib.redirect_stdout(stdout):
+            result = main(
+                [
+                    "--version",
+                    "4.0",
+                    "--tag",
+                    "v4.0",
+                    "--commit",
+                    NEW_COMMIT,
+                    "--migration-url",
+                    "https://github.com/weiandata/WAEF/blob/v4.0/docs/migration.md",
+                    "--changed-rules",
+                    CHANGED_RULES,
+                    "--migration-steps",
+                    MIGRATION_STEPS,
+                    "--validate-only",
+                ]
+            )
+        self.assertEqual(0, result)
+        self.assertIn('"validated_repositories"', stdout.getvalue())
+
     def test_dispatch_workflow_verifies_tag_before_upgrade_and_scopes_writes(self):
         workflow = (ROOT / ".github" / "workflows" / "waef-upgrade.yml").read_text(
             encoding="utf-8"
         )
         self.assertIn("workflow_dispatch:", workflow)
-        for field in ("version", "tag", "commit", "migration_url"):
+        for field in (
+            "version",
+            "tag",
+            "commit",
+            "migration_url",
+            "changed_rules",
+            "migration_steps",
+        ):
             self.assertIn(f"      {field}:", workflow)
         self.assertIn(
-            'git ls-remote https://github.com/weiandata/WAEF.git "refs/tags/${RELEASE_TAG}"',
+            '"refs/tags/${RELEASE_TAG}^{}"',
             workflow,
         )
+        for field in (
+            "version",
+            "tag",
+            "commit",
+            "migration_url",
+            "changed_rules",
+            "migration_steps",
+        ):
+            self.assertNotIn(f'"${{{{ inputs.{field} }}}}"', workflow)
+        lines = workflow.splitlines()
+        run_blocks = []
+        index = 0
+        while index < len(lines):
+            line = lines[index]
+            if line.lstrip().startswith("run:"):
+                indent = len(line) - len(line.lstrip())
+                block = [line]
+                index += 1
+                while index < len(lines):
+                    next_line = lines[index]
+                    next_indent = len(next_line) - len(next_line.lstrip())
+                    if next_line.strip() and next_indent <= indent:
+                        break
+                    block.append(next_line)
+                    index += 1
+                run_blocks.append("\n".join(block))
+                continue
+            index += 1
+        self.assertTrue(run_blocks)
+        self.assertNotIn("${{ inputs.", "\n".join(run_blocks))
+        self.assertIn('--version "${WAEF_VERSION}"', workflow)
+        self.assertIn('--changed-rules "${CHANGED_RULES}"', workflow)
         self.assertLess(workflow.index("Test upgrade implementation"), workflow.index("git ls-remote"))
         self.assertLess(workflow.index("git ls-remote"), workflow.rindex("python3 -m operations.waef.upgrade"))
         self.assertIn("repositories: |", workflow)

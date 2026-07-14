@@ -15,6 +15,9 @@
   "check_runs": [
     {"name": "WAEF Compliance", "conclusion": "skipped", "status": "completed"}
   ],
+  "workflow_runs": [
+    {"name": "WAEF Compliance", "path": ".github/workflows/waef-compliance.yml", "head_sha": "2222222222222222222222222222222222222222", "conclusion": "skipped", "status": "completed"}
+  ],
   "waef_tags": {
     "v4.0": {"type": "commit", "sha": "993ef1e41306146f62881106ab17cae2e23162f5"}
   },

@@ -12,6 +12,29 @@ GENERATED_MARKER_RE = re.compile(
     re.MULTILINE,
 )
 VERSION_RE = re.compile(r"^[0-9]+\.[0-9]+$")
+COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
+
+
+def render_compliance_workflow(commit: str) -> str:
+    """Render the only accepted repository-local WAEF workflow caller."""
+
+    if not COMMIT_RE.fullmatch(commit):
+        raise ValueError("workflow commit must be a full lowercase 40-character SHA")
+    return (
+        "name: WAEF Compliance\n"
+        "on: [pull_request]\n"
+        "permissions:\n"
+        "  contents: read\n"
+        "jobs:\n"
+        "  compliance:\n"
+        f"    uses: weiandata/WAEF/.github/workflows/compliance.yml@{commit}\n"
+        "    with:\n"
+        f"      waef_commit: {commit}\n"
+        "      lock_path: .waef/waef.lock.yml\n"
+        "    secrets:\n"
+        "      WAEF_APP_ID: ${{ secrets.WAEF_APP_ID }}\n"
+        "      WAEF_APP_PRIVATE_KEY: ${{ secrets.WAEF_APP_PRIVATE_KEY }}\n"
+    )
 
 
 def _bounds(text: str) -> tuple[int, int]:

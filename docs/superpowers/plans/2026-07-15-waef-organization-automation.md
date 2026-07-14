@@ -119,7 +119,7 @@ git -C .github commit -m "feat: audit WAEF compliance daily"
 - Create: `.github/operations/waef/UPGRADES.md`
 
 **Interfaces:**
-- Produces: `build_upgrade(repo: RepositoryRecord, version: str, tag: str, commit: str, migration_url: str) -> UpgradeChange`; `render_lock(version: str, tag: str, commit: str, profiles: Sequence[str], updated_by: str) -> str`; `render_workflow(commit: str) -> str`; branch name computed as `f"automation/waef-{version}"`; one Pull Request per inventory repository.
+- Produces: `build_upgrade(repo: RepositoryRecord, version: str, tag: str, commit: str, migration_url: str, changed_rules: str, migration_steps: str) -> UpgradeChange`; `render_lock(version: str, tag: str, commit: str, profiles: Sequence[str], updated_by: str) -> str`; `render_workflow(commit: str) -> str`; branch name computed as `f"automation/waef-{version}"`; one Pull Request per inventory repository.
 
 - [ ] **Step 1: Write failing upgrade tests**
 
@@ -135,7 +135,12 @@ Use Git data and Pull Request APIs to create or update `f"automation/waef-{versi
 
 - [ ] **Step 4: Implement release-dispatch workflow**
 
-Accept `workflow_dispatch` inputs `version`, `tag`, `commit`, and `migration_url`. Before creating any remote branch, run unit tests and call `git ls-remote https://github.com/weiandata/WAEF.git "refs/tags/${tag}"`; require the returned SHA to equal the `commit` input.
+Accept `workflow_dispatch` inputs `version`, `tag`, `commit`, `migration_url`,
+`changed_rules`, and `migration_steps`. Pass them to shell commands only through
+quoted environment variables. Before creating any remote branch, run unit tests
+and call `git ls-remote` for both the direct and peeled tag refs; require the
+peeled commit (or direct commit for a lightweight tag) to equal the `commit`
+input.
 
 - [ ] **Step 5: Run upgrade tests**
 
@@ -163,7 +168,12 @@ git -C .github commit -m "feat: open reviewed WAEF upgrade PRs"
 
 - [ ] **Step 1: Document separate validation and automation permissions**
 
-Validation requires metadata read, contents read, pull-request read, checks read, and issues write only if audit creates Issues. Upgrade automation additionally requires contents write and pull-requests write. Prefer separate App installations or tokens when GitHub permission boundaries allow it.
+Validation requires metadata read, contents read, checks read, and Actions read
+to bind a successful check to the governed workflow path. Issue reporting uses
+a separate repository-limited write token. Upgrade automation additionally
+requires contents write, pull-requests write, issues write, and workflows write.
+Prefer separate App installations or tokens when GitHub permission boundaries
+allow it.
 
 - [ ] **Step 2: Protect automation and secret-bearing configuration**
 
