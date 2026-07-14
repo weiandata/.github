@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "organization": "weiandata",
+  "repositories": [
+    {
+      "name": ".github",
+      "owner": "engineering-governance",
+      "lifecycle": "active",
+      "profiles": ["governance-framework"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 3
+    },
+    {
+      "name": "DCC",
+      "owner": "package-maintainers",
+      "lifecycle": "active",
+      "profiles": ["r-package"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 1
+    },
+    {
+      "name": "IRTC",
+      "owner": "package-maintainers",
+      "lifecycle": "active",
+      "profiles": ["r-package"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 2
+    },
+    {
+      "name": "LISTR",
+      "owner": "statistics-engineering",
+      "lifecycle": "planned",
+      "profiles": ["planned-project"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 3
+    },
+    {
+      "name": "WAEF",
+      "owner": "engineering-governance",
+      "lifecycle": "active",
+      "profiles": ["governance-framework"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 1
+    },
+    {
+      "name": "WFC",
+      "owner": "package-maintainers",
+      "lifecycle": "active",
+      "profiles": ["r-package"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 2
+    },
+    {
+      "name": "mergecalib",
+      "owner": "package-maintainers",
+      "lifecycle": "active",
+      "profiles": ["r-package"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 2
+    },
+    {
+      "name": "ratecalib",
+      "owner": "package-maintainers",
+      "lifecycle": "active",
+      "profiles": ["r-package"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 2
+    },
+    {
+      "name": "repository-template",
+      "owner": "platform-engineering",
+      "lifecycle": "active",
+      "profiles": ["repository-template"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 1
+    },
+    {
+      "name": "website",
+      "owner": "web-engineering",
+      "lifecycle": "active",
+      "profiles": ["static-website"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 1
+    },
+    {
+      "name": "website-global-preview",
+      "owner": "web-engineering",
+      "lifecycle": "active",
+      "profiles": ["static-website"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 3
+    }
+  ]
+}
