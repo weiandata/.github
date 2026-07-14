@@ -1,0 +1,66 @@
+name: WAEF Organization Audit
+
+on:
+  schedule:
+    - cron: "17 22 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Independent WAEF audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out organization governance
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
+
+      - name: Create organization-wide read-only audit token
+        id: audit-read-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+        with:
+          app-id: ${{ secrets.WAEF_APP_ID }}
+          private-key: ${{ secrets.WAEF_APP_PRIVATE_KEY }}
+          owner: weiandata
+          permission-checks: read
+          permission-contents: read
+          permission-metadata: read
+
+      - name: Create repository-limited Issue token
+        id: audit-issue-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+        with:
+          app-id: ${{ secrets.WAEF_APP_ID }}
+          private-key: ${{ secrets.WAEF_APP_PRIVATE_KEY }}
+          owner: weiandata
+          repositories: |
+            .github
+            DCC
+            IRTC
+            LISTR
+            WAEF
+            WFC
+            mergecalib
+            ratecalib
+            repository-template
+            website
+            website-global-preview
+          permission-issues: write
+          permission-metadata: read
+
+      - name: Test audit implementation
+        run: python3 -m unittest discover -s operations/waef/tests -p 'test_*.py' -v
+
+      - name: Audit registered repositories
+        env:
+          GH_TOKEN: ${{ steps.audit-read-token.outputs.token }}
+          WAEF_ISSUE_TOKEN: ${{ steps.audit-issue-token.outputs.token }}
+        run: >-
+          python3 -m operations.waef.audit
+          --json-output waef-audit.json
+          --markdown-output waef-audit.md
+          --github-summary

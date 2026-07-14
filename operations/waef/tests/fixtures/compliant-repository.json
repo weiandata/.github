@@ -1,0 +1,22 @@
+{
+  "repository": {
+    "name": "DCC",
+    "archived": false,
+    "default_branch": "main"
+  },
+  "head_sha": "1111111111111111111111111111111111111111",
+  "files": {
+    "AGENTS.md": "Read `.waef/waef.lock.yml` and the exact locked WAEF source before work. Profiles: r-package. Stop if the source cannot be verified. Project rules may strengthen but never weaken WAEF.\n",
+    ".waef/waef.lock.yml": "schema: 1\nframework: WAEF\nversion: \"4.0\"\nrepository: weiandata/WAEF\ntag: v4.0\ncommit: 993ef1e41306146f62881106ab17cae2e23162f5\nprofiles:\n  - r-package\nupdated_by: https://github.com/weiandata/DCC/pull/1\n",
+    ".waef/project.yml": "name: DCC\nowner: package-maintainers\nstatus: active\npurpose: Distribution calibration package\nrisk: controlled\npublication: allowed\nlanguage: R\n",
+    ".github/workflows/waef-compliance.yml": "name: WAEF Compliance\non: [pull_request]\npermissions:\n  contents: read\njobs:\n  compliance:\n    uses: weiandata/WAEF/.github/workflows/compliance.yml@993ef1e41306146f62881106ab17cae2e23162f5\n    with:\n      waef_commit: 993ef1e41306146f62881106ab17cae2e23162f5\n      lock_path: .waef/waef.lock.yml\n    secrets:\n      WAEF_APP_ID: ${{ secrets.WAEF_APP_ID }}\n      WAEF_APP_PRIVATE_KEY: ${{ secrets.WAEF_APP_PRIVATE_KEY }}\n",
+    "CODEOWNERS": "/AGENTS.md @weiandata/waef-maintainers\n/.waef/ @weiandata/waef-maintainers\n/.github/workflows/waef-compliance.yml @weiandata/waef-maintainers\n/.github/workflows/ @weiandata/organization-governance\n/CODEOWNERS @weiandata/organization-governance\n/PROPRIETARY.md @weiandata/organization-governance\n"
+  },
+  "check_runs": [
+    {"name": "WAEF Compliance", "conclusion": "success", "status": "completed"}
+  ],
+  "waef_tags": {
+    "v4.0": {"type": "commit", "sha": "993ef1e41306146f62881106ab17cae2e23162f5"}
+  },
+  "issues": []
+}
