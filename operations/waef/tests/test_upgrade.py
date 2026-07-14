@@ -155,6 +155,7 @@ class UpgradeTests(unittest.TestCase):
             rendered,
         )
         self.assertIn(f"waef_commit: {NEW_COMMIT}", rendered)
+        self.assertIn("on: [pull_request, push]", rendered)
         self.assertNotIn("@main", rendered)
 
     def test_build_upgrade_rejects_invalid_release_identity(self):

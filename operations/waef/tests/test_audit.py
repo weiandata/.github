@@ -43,6 +43,7 @@ class FakeGitHubClient:
             else organization_repositories
         )
         self.writes = []
+        self.requests = []
         self.tag_reads = 0
 
     @staticmethod
@@ -56,6 +57,7 @@ class FakeGitHubClient:
         )
 
     def request(self, method, path, body=None):
+        self.requests.append((method, path, body))
         if method == "GET" and path.startswith("/orgs/weiandata/repos?"):
             return self.organization_repositories
         if method == "GET" and "/contents/" in path:
@@ -248,8 +250,10 @@ class AuditTests(unittest.TestCase):
         fixture["workflow_runs"] = [
             {
                 "name": "WAEF Compliance",
-                "path": ".github/workflows/spoof.yml",
+                "path": ".github/workflows/spoof.yml@main",
+                "head_branch": "main",
                 "head_sha": fixture["head_sha"],
+                "event": "push",
                 "conclusion": "success",
                 "status": "completed",
             }
@@ -260,6 +264,42 @@ class AuditTests(unittest.TestCase):
         self.assertIn(
             "WAEF-AUDIT-CHECK", {finding.rule_id for finding in report.findings}
         )
+
+    def test_pull_request_run_is_not_default_branch_evidence(self):
+        fixture = load_fixture("compliant-repository.json")
+        fixture["workflow_runs"][0]["event"] = "pull_request"
+        report = audit_organization(
+            FakeGitHubClient(fixture), [record()], TODAY, synchronize_issues=False
+        )
+        self.assertIn(
+            "WAEF-AUDIT-CHECK", {finding.rule_id for finding in report.findings}
+        )
+
+    def test_workflow_run_from_another_ref_is_rejected(self):
+        fixture = load_fixture("compliant-repository.json")
+        fixture["workflow_runs"][0]["path"] = (
+            ".github/workflows/waef-compliance.yml@feature/bypass"
+        )
+        report = audit_organization(
+            FakeGitHubClient(fixture), [record()], TODAY, synchronize_issues=False
+        )
+        self.assertIn(
+            "WAEF-AUDIT-CHECK", {finding.rule_id for finding in report.findings}
+        )
+
+    def test_workflow_run_query_is_limited_to_default_branch_push_head(self):
+        fixture = load_fixture("compliant-repository.json")
+        client = FakeGitHubClient(fixture)
+        report = audit_organization(
+            client, [record()], TODAY, synchronize_issues=False
+        )
+        self.assertEqual((), report.findings)
+        run_path = next(
+            path for method, path, _ in client.requests if "/actions/workflows/" in path
+        )
+        self.assertIn("branch=main", run_path)
+        self.assertIn("event=push", run_path)
+        self.assertIn(f"head_sha={fixture['head_sha']}", run_path)
 
     def test_workflow_uses_immutable_actions_and_split_token_scopes(self):
         workflow = (ROOT / ".github" / "workflows" / "waef-audit.yml").read_text(

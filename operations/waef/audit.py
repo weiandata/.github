@@ -412,7 +412,8 @@ def _validate_check(
     workflow_response = client.request(
         "GET",
         f"/repos/{ORGANIZATION}/{quote(record.name, safe='')}/actions/workflows/{workflow_name}"
-        f"/runs?head_sha={quote(sha, safe='')}&status=completed&per_page=100",
+        f"/runs?branch={quote(default_branch, safe='')}&event=push"
+        f"&head_sha={quote(sha, safe='')}&status=completed&per_page=100",
     )
     workflow_runs = (
         workflow_response.get("workflow_runs", [])
@@ -422,8 +423,10 @@ def _validate_check(
     source_runs = [
         run
         for run in workflow_runs
-        if run.get("path") == WORKFLOW_PATH
+        if run.get("path") == f"{WORKFLOW_PATH}@{default_branch}"
+        and run.get("head_branch") == default_branch
         and run.get("head_sha") == sha
+        and run.get("event") == "push"
         and run.get("name") == record.expected_waef_check
         and run.get("status") == "completed"
         and run.get("conclusion") == "success"

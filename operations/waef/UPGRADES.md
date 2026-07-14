@@ -21,6 +21,10 @@ upgrade. Changed template obligations are intentionally left for the Pull
 Request author and reviewers to implement from the migration guide; WAEF and
 project CI must remain red until those semantic changes are complete.
 
+The rendered thin caller runs on both `pull_request` and `push`. Pull Requests
+provide the merge-gating result; a successful push run at the exact
+default-branch HEAD provides independently auditable post-merge evidence.
+
 The lock's `updated_by` field must contain the URL of the Pull Request that is
 being created. GitHub assigns that URL only after a branch exists, so a new
 upgrade is recorded in two ordinary, non-forced commits:

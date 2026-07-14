@@ -83,7 +83,12 @@ Cover missing `AGENTS.md`, lock, project metadata, workflow caller, CODEOWNERS c
 
 - [ ] **Step 2: Implement repository and organization audit**
 
-Read default-branch files through the contents API and check recent commit status/check-runs. Compare GitHub organization repository enumeration to the inventory. Produce stable finding fingerprints from repository, rule ID, and path so repeated daily failures update one Issue instead of creating duplicates.
+Read default-branch files through the contents API and check recent commit
+status/check-runs. Bind audit evidence to a successful `push` workflow run at
+the exact default-branch HEAD and the qualified governed workflow path. Compare
+GitHub organization repository enumeration to the inventory. Produce stable
+finding fingerprints from repository, rule ID, and path so repeated daily
+failures update one Issue instead of creating duplicates.
 
 - [ ] **Step 3: Implement daily workflow**
 

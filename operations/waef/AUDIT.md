@@ -11,11 +11,14 @@ branch and verifies:
 - the WAEF bootstrap in `AGENTS.md`;
 - the exact `.waef/waef.lock.yml` and selected profiles;
 - `.waef/project.yml`, including the reviewed accountable owner;
-- the byte-exact immutable private reusable-workflow caller;
+- the byte-exact immutable private reusable-workflow caller, triggered for both
+  Pull Requests and pushes;
 - governance coverage in `CODEOWNERS`;
 - the WAEF tag-to-commit provenance;
 - exactly one successful default-branch `WAEF Compliance` check and a
-  successful run bound to `.github/workflows/waef-compliance.yml`; and
+  successful `push` run bound to
+  `.github/workflows/waef-compliance.yml@DEFAULT_BRANCH` at the exact current
+  default-branch HEAD; and
 - exception expiration dates.
 
 The workflow mints two short-lived tokens. The organization-wide audit token is

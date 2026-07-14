@@ -22,7 +22,7 @@ def render_compliance_workflow(commit: str) -> str:
         raise ValueError("workflow commit must be a full lowercase 40-character SHA")
     return (
         "name: WAEF Compliance\n"
-        "on: [pull_request]\n"
+        "on: [pull_request, push]\n"
         "permissions:\n"
         "  contents: read\n"
         "jobs:\n"
