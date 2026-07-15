@@ -1,0 +1,25 @@
+{
+  "repository": {
+    "name": "DCC",
+    "archived": false,
+    "default_branch": "main"
+  },
+  "head_sha": "2222222222222222222222222222222222222222",
+  "files": {
+    ".waef/waef.lock.yml": "schema: 1\nframework: WAEF\nversion: \"4.0\"\nrepository: weiandata/WAEF\ntag: v4.0\ncommit: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\nprofiles:\n  - r-package\nupdated_by: https://github.com/weiandata/DCC/pull/1\n",
+    ".waef/project.yml": "name: DCC\nowner: wrong-owner\nstatus: active\npurpose: Distribution calibration package\nrisk: controlled\npublication: allowed\nlanguage: R\n",
+    ".github/workflows/waef-compliance.yml": "name: WAEF Compliance\non: [pull_request, push]\npermissions:\n  contents: read\njobs:\n  compliance:\n    uses: weiandata/WAEF/.github/workflows/compliance.yml@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n    with:\n      waef_commit: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+    "CODEOWNERS": "* @weiandata/package-maintainers\n",
+    ".waef/exceptions.yml": "schema: 1\nexceptions:\n  - rule_id: WAEF-PROFILE-PATH\n    owner: package-maintainers\n    expires: 2026-07-01\n"
+  },
+  "check_runs": [
+    {"name": "WAEF Compliance", "conclusion": "skipped", "status": "completed"}
+  ],
+  "workflow_runs": [
+    {"name": "WAEF Compliance", "path": ".github/workflows/waef-compliance.yml@main", "head_branch": "main", "head_sha": "2222222222222222222222222222222222222222", "event": "push", "conclusion": "skipped", "status": "completed"}
+  ],
+  "waef_tags": {
+    "v4.0": {"type": "commit", "sha": "993ef1e41306146f62881106ab17cae2e23162f5"}
+  },
+  "issues": []
+}

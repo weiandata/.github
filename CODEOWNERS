@@ -1,1 +1,9 @@
 * @makunxiang-weiandata
+
+# WAEF organization governance and credential-bearing control surfaces
+/operations/waef/ @makunxiang-weiandata
+/.github/workflows/waef-*.yml @makunxiang-weiandata
+/operations/waef/ruleset.json @makunxiang-weiandata
+/operations/waef/rulesets/ @makunxiang-weiandata
+/CODEOWNERS @makunxiang-weiandata
+/SECURITY.md @makunxiang-weiandata

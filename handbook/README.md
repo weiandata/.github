@@ -2,10 +2,10 @@
 
 | Field | Value |
 |---|---|
-| Release | v1.2.0 |
+| Release | v1.3.0 |
 | Status | Published |
 | Owner | WeianData |
-| Publication date | 2026-07-14 |
+| Publication date | 2026-07-15 |
 
 The WeianData Engineering Handbook is the company's engineering operating system. It defines how humans and AI agents build, validate, secure, deliver, and preserve trustworthy software for trustworthy measurement.
 

@@ -1,0 +1,121 @@
+name: WAEF Reviewed Upgrade Pull Requests
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact WAEF MAJOR.MINOR release
+        required: true
+        type: string
+      tag:
+        description: Exact WAEF tag equal to v plus version
+        required: true
+        type: string
+      commit:
+        description: Full immutable WAEF release commit SHA
+        required: true
+        type: string
+      migration_url:
+        description: Private WAEF migration instructions URL
+        required: true
+        type: string
+      changed_rules:
+        description: Markdown summary of changed MUST rules
+        required: true
+        type: string
+      migration_steps:
+        description: Markdown summary of required migration steps
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  upgrade:
+    name: Open reviewed upgrade Pull Requests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out organization governance
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
+
+      - name: Test upgrade implementation before remote writes
+        run: python3 -m unittest discover -s operations/waef/tests -p 'test_*.py' -v
+
+      - name: Validate requested release identity before authentication
+        env:
+          WAEF_VERSION: ${{ inputs.version }}
+          WAEF_TAG: ${{ inputs.tag }}
+          WAEF_COMMIT: ${{ inputs.commit }}
+          MIGRATION_URL: ${{ inputs.migration_url }}
+          CHANGED_RULES: ${{ inputs.changed_rules }}
+          MIGRATION_STEPS: ${{ inputs.migration_steps }}
+        run: >-
+          python3 -m operations.waef.upgrade
+          --version "${WAEF_VERSION}"
+          --tag "${WAEF_TAG}"
+          --commit "${WAEF_COMMIT}"
+          --migration-url "${MIGRATION_URL}"
+          --changed-rules "${CHANGED_RULES}"
+          --migration-steps "${MIGRATION_STEPS}"
+          --validate-only
+
+      - name: Create repository-limited upgrade token
+        id: upgrade-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+        with:
+          app-id: ${{ secrets.WAEF_AUTOMATION_APP_ID }}
+          private-key: ${{ secrets.WAEF_AUTOMATION_APP_PRIVATE_KEY }}
+          owner: weiandata
+          repositories: |
+            .github
+            DCC
+            IRTC
+            LISTR
+            WAEF
+            WFC
+            mergecalib
+            ratecalib
+            repository-template
+            website
+            website-global-preview
+          permission-contents: write
+          permission-metadata: read
+          permission-pull-requests: write
+          permission-workflows: write
+
+      - name: Verify exact private release tag before remote writes
+        shell: bash
+        env:
+          EXPECTED_COMMIT: ${{ inputs.commit }}
+          RELEASE_TAG: ${{ inputs.tag }}
+          GIT_CONFIG_COUNT: "1"
+          GIT_CONFIG_KEY_0: http.extraHeader
+          GIT_CONFIG_VALUE_0: "Authorization: Bearer ${{ steps.upgrade-token.outputs.token }}"
+        run: |
+          set -euo pipefail
+          tag_refs="$(git ls-remote https://github.com/weiandata/WAEF.git "refs/tags/${RELEASE_TAG}" "refs/tags/${RELEASE_TAG}^{}")"
+          actual_commit="$(printf '%s\n' "${tag_refs}" | awk '$2 ~ /\^\{\}$/ { peeled=$1 } $2 !~ /\^\{\}$/ { direct=$1 } END { print peeled != "" ? peeled : direct }')"
+          test -n "${actual_commit}"
+          test "${actual_commit}" = "${EXPECTED_COMMIT}"
+
+      - name: Open or update one review-only Pull Request per repository
+        env:
+          WAEF_UPGRADE_TOKEN: ${{ steps.upgrade-token.outputs.token }}
+          WAEF_VERSION: ${{ inputs.version }}
+          WAEF_TAG: ${{ inputs.tag }}
+          WAEF_COMMIT: ${{ inputs.commit }}
+          MIGRATION_URL: ${{ inputs.migration_url }}
+          CHANGED_RULES: ${{ inputs.changed_rules }}
+          MIGRATION_STEPS: ${{ inputs.migration_steps }}
+        run: >-
+          python3 -m operations.waef.upgrade
+          --version "${WAEF_VERSION}"
+          --tag "${WAEF_TAG}"
+          --commit "${WAEF_COMMIT}"
+          --migration-url "${MIGRATION_URL}"
+          --changed-rules "${CHANGED_RULES}"
+          --migration-steps "${MIGRATION_STEPS}"
