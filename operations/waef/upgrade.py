@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import base64
 import json
 import os
 import re
@@ -14,7 +13,7 @@ from typing import Any, Mapping, Sequence
 from urllib.parse import quote
 
 from operations.waef.audit import _parse_flat_yaml
-from operations.waef.github_client import GitHubClient
+from operations.waef.github_client import GitHubClient, decode_file_content
 from operations.waef.models import RepositoryRecord, load_inventory
 from operations.waef.render_adapter import render_compliance_workflow, update_generated_version
 
@@ -200,7 +199,7 @@ def _read_file(client: GitHubClient, repository: str, reference: str, path: str)
         raise ValueError(f"expected file at {repository}/{path}")
     if response.get("encoding") != "base64" or not isinstance(response.get("content"), str):
         raise ValueError(f"unexpected contents encoding at {repository}/{path}")
-    return base64.b64decode(response["content"], validate=True).decode("utf-8")
+    return decode_file_content(response["content"])
 
 
 def _get_ref(client: GitHubClient, repository: str, ref: str) -> dict[str, Any] | None:

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import base64
 import datetime as dt
 import fnmatch
 import json
@@ -16,7 +15,7 @@ from typing import Any, Iterable, Sequence
 from urllib.parse import quote
 from zoneinfo import ZoneInfo
 
-from operations.waef.github_client import GitHubClient
+from operations.waef.github_client import GitHubClient, decode_file_content
 from operations.waef.models import AuditFinding, RepositoryRecord, load_inventory
 from operations.waef.render_adapter import render_compliance_workflow
 
@@ -105,7 +104,7 @@ def _read_file(client: GitHubClient, repository: str, branch: str, path: str) ->
         return None
     if response.get("encoding") != "base64" or not isinstance(response.get("content"), str):
         raise ValueError(f"unexpected contents response for {repository}/{path}")
-    return base64.b64decode(response["content"], validate=True).decode("utf-8")
+    return decode_file_content(response["content"])
 
 
 def _unquote(value: str) -> str:

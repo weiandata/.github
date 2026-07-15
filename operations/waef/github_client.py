@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import base64
+import binascii
 import json
 import logging
 import time
@@ -12,6 +14,16 @@ from typing import Any
 
 
 RETRYABLE_STATUSES = frozenset({429, 502, 503, 504})
+
+
+def decode_file_content(content: str) -> str:
+    """Decode GitHub Contents API Base64, which may contain line wrapping."""
+
+    normalized = "".join(content.split())
+    try:
+        return base64.b64decode(normalized, validate=True).decode("utf-8")
+    except (binascii.Error, UnicodeDecodeError) as error:
+        raise ValueError("GitHub file content must be valid Base64 UTF-8") from error
 
 
 class GitHubClient:

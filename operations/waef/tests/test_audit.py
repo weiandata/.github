@@ -35,7 +35,7 @@ def record(**changes):
 
 
 class FakeGitHubClient:
-    def __init__(self, fixture, organization_repositories=None):
+    def __init__(self, fixture, organization_repositories=None, wrap_base64=False):
         self.fixture = copy.deepcopy(fixture)
         self.organization_repositories = (
             [self.fixture["repository"]]
@@ -45,6 +45,7 @@ class FakeGitHubClient:
         self.writes = []
         self.requests = []
         self.tag_reads = 0
+        self.wrap_base64 = wrap_base64
 
     @staticmethod
     def not_found(path):
@@ -66,6 +67,11 @@ class FakeGitHubClient:
             if file_path not in self.fixture["files"]:
                 raise self.not_found(path)
             content = base64.b64encode(self.fixture["files"][file_path].encode()).decode()
+            if self.wrap_base64:
+                content = "\n".join(
+                    content[index : index + 60]
+                    for index in range(0, len(content), 60)
+                )
             return {"type": "file", "encoding": "base64", "content": content}
         if method == "GET" and "/branches/" in path:
             return {"commit": {"sha": self.fixture["head_sha"]}}
@@ -91,6 +97,16 @@ class FakeGitHubClient:
 
 
 class AuditTests(unittest.TestCase):
+    def test_github_wrapped_base64_content_is_accepted(self):
+        report = audit_organization(
+            FakeGitHubClient(
+                load_fixture("compliant-repository.json"), wrap_base64=True
+            ),
+            [record()],
+            TODAY,
+        )
+        self.assertEqual((), report.findings)
+
     def test_compliant_repository_has_no_findings(self):
         report = audit_organization(
             FakeGitHubClient(load_fixture("compliant-repository.json")),

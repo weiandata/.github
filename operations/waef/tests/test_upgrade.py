@@ -60,7 +60,9 @@ def current_files():
 
 
 class FakeUpgradeClient:
-    def __init__(self, existing_pull=False, unexpected_branch_path=None):
+    def __init__(
+        self, existing_pull=False, unexpected_branch_path=None, wrap_base64=False
+    ):
         self.files = current_files()
         self.existing_pull = existing_pull
         self.unexpected_branch_path = unexpected_branch_path
@@ -68,6 +70,7 @@ class FakeUpgradeClient:
         self.blob_count = 0
         self.tree_count = 0
         self.commit_count = 0
+        self.wrap_base64 = wrap_base64
 
     @staticmethod
     def not_found(path):
@@ -101,6 +104,11 @@ class FakeUpgradeClient:
         if method == "GET" and "/contents/" in path:
             file_path = path.split("/contents/", 1)[1].split("?", 1)[0]
             content = base64.b64encode(self.files[file_path].encode()).decode()
+            if self.wrap_base64:
+                content = "\n".join(
+                    content[index : index + 60]
+                    for index in range(0, len(content), 60)
+                )
             return {"type": "file", "encoding": "base64", "content": content}
         if method == "GET" and "/git/commits/" in path:
             return {"tree": {"sha": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"}}
@@ -133,6 +141,21 @@ class FakeUpgradeClient:
 
 
 class UpgradeTests(unittest.TestCase):
+    def test_github_wrapped_base64_content_is_accepted(self):
+        pull = upgrade_repository(
+            FakeUpgradeClient(wrap_base64=True),
+            build_upgrade(
+                repository_record(),
+                "4.0",
+                "v4.0",
+                NEW_COMMIT,
+                "https://github.com/weiandata/WAEF/blob/v4.0/MIGRATION.md",
+                CHANGED_RULES,
+                MIGRATION_STEPS,
+            ),
+        )
+        self.assertEqual(13, pull["number"])
+
     def test_render_lock_contains_exact_release_and_preserved_profiles(self):
         rendered = render_lock(
             "4.0",
