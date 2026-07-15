@@ -6,7 +6,7 @@
 | Owner | WeianData Engineering |
 | Approval date | 2026-07-15 |
 | Sandbox | `weiandata/waef-compliance-sandbox` (private, temporary) |
-| Candidate commit | The reviewed WAEF PR #2 commit that adds the sandbox-only candidate workflow; freeze and record its full SHA before sandbox creation |
+| Candidate commit | `da22b444005e834e12d114651f354277e0e3a10d` |
 
 ## 1. Purpose
 
@@ -39,9 +39,12 @@ The previously reviewed candidate commit
 `993ef1e41306146f62881106ab17cae2e23162f5` cannot produce a green consumer
 run before `v4.0` exists because the production reusable workflow correctly
 requires release-tag provenance. WAEF Pull Request #2 therefore adds a separate
-sandbox-only candidate workflow. After that change passes tests and independent
-review, its full commit SHA becomes the only accepted bridge candidate identity.
-No mutable branch, `main`, `latest`, or provisional value is accepted.
+sandbox-only candidate workflow. That change passed 58 tests, 16 behavioral
+scenarios, the hosted `WAEF Self Check`, and independent review with no remaining
+findings. Its full commit SHA
+`da22b444005e834e12d114651f354277e0e3a10d` is the only accepted bridge
+candidate identity. No mutable branch, `main`, `latest`, or provisional value is
+accepted.
 
 ## 3. Sandbox construction
 
