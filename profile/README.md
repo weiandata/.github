@@ -1,124 +1,78 @@
 # WeianData
 
-> **Building reliable AI infrastructure for educational measurement and scientific research.**
+> Trustworthy measurement, statistical software, and AI-assisted research delivery.
 
-WeianData is an AI technology company focused on educational measurement, psychometrics, data science, and research infrastructure.
+WeianData helps researchers and large-scale survey organizations solve
+method-sensitive data problems with professional measurement, reliable software,
+and efficient AI-assisted delivery.
 
-Our mission is to make advanced measurement science easier, more accessible, and more intelligent through modern artificial intelligence.
+We build reusable, documented systems that make data processing and statistical
+decisions more correct, reproducible, and auditable. AI accelerates
+implementation; scientific validity comes from explicit methods, evidence, and
+accountable human review.
 
----
+## What we work on
 
-# 🚀 Products
+- Educational measurement and psychometrics
+- Survey weighting, calibration, and data quality
+- Reproducible statistical computing
+- AI-assisted research and engineering workflows
+- Controlled handling of client data
 
-| Product | Description | Status |
-|---------|-------------|--------|
-| **IRT Engine** | High-performance Item Response Theory computation engine | 🚧 Planning |
-| **IRT Assistant** | AI assistant for educational measurement and statistics | 🚧 Planning |
-| **Knowledge Base** | Professional knowledge system for IRT and psychometrics | 🚧 Planning |
-| **Research Platform** | AI-powered research infrastructure | 🚧 Planning |
-| **Official Website** | Company website and documentation portal | 🚧 In Development |
+## Public projects
 
----
+| Repository | Purpose | Status |
+| --- | --- | --- |
+| [DCC](https://github.com/weiandata/DCC) | Auditable, rule-driven survey and assessment data cleaning for R | Active |
+| [IRTC](https://github.com/weiandata/IRTC) | High-performance item response theory estimation for R | Active |
+| [WFC](https://github.com/weiandata/WFC) | Reviewable survey weighting with verified external targets and audit evidence | Active |
+| [website-global-preview](https://github.com/weiandata/website-global-preview) | Publicly viewable proprietary source for the bilingual global website | Active |
+| [.github](https://github.com/weiandata/.github) | Organization profile and public engineering handbook | Active |
 
-# 📚 Research
+Private repositories contain internal frameworks, templates, production source,
+validation evidence, or preserved historical work and are not public
+deliverables.
 
-WeianData focuses on applying modern artificial intelligence to educational measurement and scientific research.
+## How we work
 
-Current research directions include:
+- Correct methods and transparent evidence come before speed.
+- Measurement expertise is the differentiator; AI is an implementation
+  accelerator.
+- Reusable, documented systems are preferred over opaque one-time calculations.
+- Client-specific code and restricted data remain separate from reusable tools.
+- Public capability claims must be supported by reproducible evidence.
 
-- Educational Measurement
-- Item Response Theory (IRT)
-- Psychometrics
-- Computerized Adaptive Testing (CAT)
-- Artificial Intelligence
-- Large Language Models (LLMs)
-- Statistical Computing
-- Data Science
+## Contribution and main-branch authorization
 
----
+Before any external contribution can enter a public repository's main branch,
+email [contact@weiandata.com](mailto:contact@weiandata.com) and receive explicit
+written authorization from WeianData. Opening a pull request is not merge
+authorization.
 
-# 🛠 Technology Stack
+Public main branches are protected: changes must use a pull request, require
+approval and CODEOWNER review, dismiss stale approvals after new commits, require
+approval of the latest reviewable push, and require all review conversations to
+be resolved. Direct pushes by ordinary collaborators, force pushes, and branch
+deletion are blocked.
 
-### Languages
-
-- Python
-- R
-- TypeScript
-- SQL
-
-### Infrastructure
-
-- Docker
-- PostgreSQL
-- GitHub Actions
-- Linux
-- Nginx
-
-### AI
-
-- OpenAI
-- Anthropic
-- Local LLM
-- Agent Workflow
-
----
-
-# 📦 Open Source Projects
-
-This organization hosts open-source software, research tools, datasets, and educational resources developed by WeianData.
-
-Upcoming repositories include:
-
-| Repository | Description |
-|------------|-------------|
-| **website** | Official company website |
-| **irt-engine** | High-performance IRT computation engine |
-| **irt-assistant** | AI assistant for educational measurement |
-| **knowledge-base** | Knowledge base for psychometrics |
-| **docs** | Documentation center |
-| **research** | Research papers and reproducible projects |
-| **datasets** | Public datasets and benchmarks |
-
----
-
-# 🌐 Resources
+## Resources
 
 | Resource | Link |
-|----------|------|
-| Official Website | https://www.weiandata.com |
-| GitHub Organization | https://github.com/weiandata |
+| --- | --- |
+| Official website | [www.weiandata.com](https://www.weiandata.com) |
+| Global website | [global.weiandata.com](https://global.weiandata.com) |
+| Engineering handbook | [WeianData Engineering Handbook](https://github.com/weiandata/.github/tree/main/handbook) |
 
----
+## Licensing
 
-# 🤝 Collaboration
+Repository visibility is not a license. R packages approved for public release
+use GPL version 2 or later. Websites, company frameworks, and other proprietary
+materials remain governed by their repository notices.
 
-We welcome collaborations from researchers, universities, educational institutions, and industry partners.
+## Contact
 
-If you are interested in research collaboration, product integration, or open-source contribution, please feel free to contact us.
-
----
-
-# 📫 Contact
-
-**Email**
-
-contact@weiandata.com
-
----
-
-## Copyright and licensing
+For research collaboration, product integration, security, licensing, or
+contribution authorization, email
+[contact@weiandata.com](mailto:contact@weiandata.com).
 
 Copyright (c) 2026 WEIAN DATA TECH (Beijing) Co., Ltd. All rights reserved.
-R packages are released under GPL version 2 or later; websites and internal
-frameworks are proprietary. Individual repositories carry their applicable
-notice.
-
----
-
-<div align="center">
-
-**WeianData**
-
-Building reliable AI infrastructure for educational measurement and scientific research.
-
-</div>
