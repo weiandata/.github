@@ -71,6 +71,29 @@ gh secret list --repo weiandata/REPOSITORY
 
 Never use a command or API response that prints a secret value.
 
+### Temporary candidate-bridge boundary
+
+The approved pre-release bridge adds exactly one temporary repository,
+`weiandata/waef-compliance-sandbox`, without adding it to the production
+inventory or scheduled audit. During that validation window only:
+
+- keep the Read App's existing all-repository, read-only installation and
+  generate one additional Read App key for the sandbox secret pair;
+- add only `waef-compliance-sandbox` to the Automation App installation and
+  generate one additional Automation App key for the sandbox secret pair;
+- store the two App IDs and two additional private keys only as the four named
+  encrypted repository secrets in the sandbox;
+- never reuse the temporary private-key files in another repository, terminal
+  command argument, report, log, artifact, Issue, Pull Request, or AI prompt;
+- delete each downloaded PEM file immediately after its corresponding secret is
+  set, and verify only secret names and update timestamps; and
+- after the approved evidence is retained, delete the four sandbox secrets,
+  revoke both additional App keys, remove the sandbox from the Automation App
+  installation, and verify that the Read App remains read-only.
+
+This exception does not authorize a production inventory change, a production
+audit dispatch, a merge, a release tag, ruleset activation, or sandbox deletion.
+
 ## Creation checklist
 
 An Organization Owner performs these steps in GitHub settings after approval:
