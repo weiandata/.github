@@ -2,11 +2,11 @@
 
 | Field | Value |
 |---|---|
-| Status | Approved in principle; written review pending |
+| Status | Approved |
 | Owner | WeianData Engineering |
 | Approval date | 2026-07-15 |
 | Sandbox | `weiandata/waef-compliance-sandbox` (private, temporary) |
-| Candidate commit | `993ef1e41306146f62881106ab17cae2e23162f5` |
+| Candidate commit | The reviewed WAEF PR #2 commit that adds the sandbox-only candidate workflow; freeze and record its full SHA before sandbox creation |
 
 ## 1. Purpose
 
@@ -35,17 +35,28 @@ It does not authorize:
 - deleting the sandbox without a separate human approval after evidence is
   retained.
 
-The bridge uses the exact WAEF candidate commit
-`993ef1e41306146f62881106ab17cae2e23162f5`. No mutable branch, `main`,
-`latest`, or placeholder is accepted as candidate identity.
+The previously reviewed candidate commit
+`993ef1e41306146f62881106ab17cae2e23162f5` cannot produce a green consumer
+run before `v4.0` exists because the production reusable workflow correctly
+requires release-tag provenance. WAEF Pull Request #2 therefore adds a separate
+sandbox-only candidate workflow. After that change passes tests and independent
+review, its full commit SHA becomes the only accepted bridge candidate identity.
+No mutable branch, `main`, `latest`, or provisional value is accepted.
 
 ## 3. Sandbox construction
 
 Create a private, non-template repository with Issues and Actions enabled. Add
 only a minimal planned-project consumer contract and test fixtures required to
 exercise WAEF and organization automation. The repository contains no copied
-normative WAEF documents; it references the private WAEF candidate by exact
-commit and uses generated, project-facing adapters only.
+normative WAEF documents; it references the private WAEF candidate workflow by
+the exact reviewed commit and uses generated, project-facing adapters only.
+
+The candidate workflow is a separate reusable workflow in WAEF Pull Request #2.
+It accepts calls only from `weiandata/waef-compliance-sandbox`, verifies the
+exact checked-out candidate SHA, verifies WAEF 4.0 metadata, and runs the full
+repository validator. It defers only the final `v4.0` tag-to-commit proof. It
+cannot be selected through the production `compliance.yml`, does not weaken the
+production workflow, and is covered by workflow-contract tests.
 
 The sandbox is registered temporarily in a sandbox-only inventory or supplied
 through an explicitly scoped validation input. Production inventory and
@@ -92,9 +103,10 @@ is fixed with a regression test before the scenario is repeated.
 
 The bridge is successful only when all eight scenarios have attributable
 evidence, credential inspection is clean, the upgrade Pull Request remains
-unmerged, and no production rule or schedule changed. A successful bridge may
-satisfy the integration blocker in WAEF Pull Request #2, but WAEF Maintainer
-approval remains required before tagging or publication.
+unmerged, and no production rule or schedule changed. Candidate evidence does
+not claim final tag provenance. A successful bridge may satisfy the pre-release
+integration blocker in WAEF Pull Request #2, but WAEF Maintainer approval and a
+successful production-workflow proof remain required before publication.
 
 After an approved immutable `v4.0` tag exists, `repository-template` is adopted
 against that exact release and its separate template-derived sandbox proof is
@@ -103,9 +115,9 @@ been reviewed and a human explicitly approves cleanup.
 
 ## 7. Rollback and stop conditions
 
-Stop immediately if the candidate SHA changes, a required permission exceeds
-the documented boundary, GitHub cannot keep the repository private, a workflow
-would expose a credential, or a test requires merging. Revoke any sandbox-only
-Automation App access, close unmerged test Pull Requests, and preserve evidence
-of the stop condition. Repository deletion is not part of automatic rollback
-because it has its own approval checkpoint.
+Stop immediately if the candidate SHA changes after it is frozen and recorded,
+a required permission exceeds the documented boundary, GitHub cannot keep the
+repository private, a workflow would expose a credential, or a test requires
+merging. Revoke any sandbox-only Automation App access, close unmerged test Pull
+Requests, and preserve evidence of the stop condition. Repository deletion is
+not part of automatic rollback because it has its own approval checkpoint.
