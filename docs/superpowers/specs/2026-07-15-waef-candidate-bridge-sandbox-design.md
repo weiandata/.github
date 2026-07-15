@@ -124,3 +124,30 @@ repository private, a workflow would expose a credential, or a test requires
 merging. Revoke any sandbox-only Automation App access, close unmerged test Pull
 Requests, and preserve evidence of the stop condition. Repository deletion is
 not part of automatic rollback because it has its own approval checkpoint.
+
+## 8. Validation outcome
+
+The approved pre-release bridge completed on 2026-07-15 against exact WAEF
+candidate `da22b444005e834e12d114651f354277e0e3a10d`. The clean private consumer
+passed WAEF Compliance and Project CI. Eight isolated, unmerged negative Pull
+Requests proved candidate identity, evidence, exception, caller-integrity, and
+independent project-check failures. Two live audits created one Issue per stable
+fingerprint and the repeat audit updated those same Issues without duplication.
+A sandbox-only upgrade created an unmerged Draft PR and final release provenance
+remained blocking.
+
+The live audit also found and reproduced line-wrapped Base64 returned by the
+GitHub Contents API. The shared audit and upgrade decoder was repaired with
+focused regression tests before validation resumed. Exact commands, SHAs, run
+URLs, PR URLs, fingerprints, credential-log results, deviations, and remaining
+limitations are recorded in `operations/waef/SANDBOX-VALIDATION.md`.
+
+This outcome satisfies only the candidate-bridge integration gate. It does not
+approve `v4.0`, merge either Draft PR, activate production audit or rulesets,
+migrate a repository, or authorize sandbox deletion.
+
+After the durable evidence was assembled, all four sandbox Secrets were
+deleted, both temporary App keys were revoked, and the Automation App
+installation was restored to its original 11 repositories. The Read App
+remained read-only on all repositories. The sandbox and its unmerged evidence
+remain available for human review.
