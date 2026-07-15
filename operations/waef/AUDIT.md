@@ -24,9 +24,10 @@ branch and verifies:
 The workflow mints two short-lived tokens. The organization-wide audit token is
 read-only so it can discover an unregistered private repository and read the
 Actions workflow-run source; a second token has Issues write access but is
-narrowed to the eleven reviewed repositories. Enabling Actions read on the live
-Read App remains a separate Organization Owner approval described in
-`GITHUB_APP.md`.
+narrowed to the eleven reviewed repositories. The live Read App installation
+has the required `Actions: read` permission. Production audit dispatch remains
+blocked until the private sandbox validation described in `GITHUB_APP.md` is
+recorded in Draft Pull Request #1.
 
 Findings have a stable fingerprint derived from repository, rule ID, and path.
 The first observation creates a labelled Issue; later observations update that

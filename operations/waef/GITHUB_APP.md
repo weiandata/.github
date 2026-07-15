@@ -45,10 +45,10 @@ capable of creating Git objects and updating non-protected refs.
 
 The source-bound audit added during security review requires Actions read so a
 green check can be tied to `.github/workflows/waef-compliance.yml`, rather than
-accepted by name alone. The live Read App must not run this audit until an
-Organization Owner separately approves the Actions-read permission update and
-the installation accepts it. This Draft Pull Request does not change the live
-App.
+accepted by name alone. On 2026-07-15, the Organization Owner approved the
+`Actions: read` update for the live Read App and accepted it on the organization
+installation. Production audit dispatch remains blocked until the private
+sandbox validation is recorded in Draft Pull Request #1.
 
 ## Secret distribution
 
