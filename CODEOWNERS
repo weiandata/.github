@@ -7,3 +7,11 @@
 /operations/waef/rulesets/ @makunxiang-weiandata
 /CODEOWNERS @makunxiang-weiandata
 /SECURITY.md @makunxiang-weiandata
+
+# WAEF governance ownership
+/AGENTS.md @weiandata/waef-maintainers
+/.waef/ @weiandata/waef-maintainers
+/.github/workflows/waef-compliance.yml @weiandata/waef-maintainers
+/.github/workflows/ @weiandata/organization-governance
+/CODEOWNERS @weiandata/organization-governance
+/PROPRIETARY.md @weiandata/organization-governance

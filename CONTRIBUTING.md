@@ -11,3 +11,10 @@ Changes to this repository must follow the [WeianData Engineering Handbook](hand
 5. Submit a pull request with the evidence required by the [Pull Request Standard](handbook/chapters/30-pull-request-standard.md).
 
 Do not include credentials, restricted client data, or confidential client artifacts.
+
+<!-- WAEF:START -->
+<!-- WAEF-TEMPLATE-VERSION: 4.1 -->
+<!-- markdownlint-disable-file MD041 -->
+Read `.waef/waef.lock.yml`, then follow the Issue, approved plan, categorized
+branch, Pull Request, validation, accountable review, and release sequence.
+<!-- WAEF:END -->
