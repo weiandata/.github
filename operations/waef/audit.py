@@ -461,7 +461,12 @@ def synchronize_findings(client: GitHubClient, findings: Iterable[AuditFinding],
     for finding in findings:
         destination = (
             ".github"
-            if finding.rule_id in {"WAEF-AUDIT-UNREGISTERED", "WAEF-AUDIT-REPOSITORY-MISSING"}
+            if finding.rule_id
+            in {
+                "WAEF-AUDIT-ARCHIVED",
+                "WAEF-AUDIT-UNREGISTERED",
+                "WAEF-AUDIT-REPOSITORY-MISSING",
+            }
             else finding.repository
         )
         grouped.setdefault(destination, []).append(finding)
