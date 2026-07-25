@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 .worktrees/
+
+# WAEF local cache
+.waef/cache/

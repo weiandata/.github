@@ -1,0 +1,9 @@
+schema: 1
+framework: WAEF
+version: "4.1"
+repository: weiandata/WAEF
+tag: "v4.1"
+commit: "664332df395ea00bb44ce13ee139c6f1c6fa7fd8"
+profiles:
+  - "governance-framework"
+updated_by: "https://github.com/weiandata/WAEF/pull/9"

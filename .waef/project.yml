@@ -1,0 +1,7 @@
+name: ".github"
+owner: "engineering-governance"
+status: "active"
+purpose: "Operate organization engineering governance and independent WAEF automation"
+risk: "controlled"
+publication: "blocked"
+language: "Markdown/Python"
