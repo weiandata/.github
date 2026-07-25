@@ -529,9 +529,14 @@ def audit_organization(
         for item in organization_repositories
         if isinstance(item, dict) and isinstance(item.get("name"), str)
     }
+    active_actual = {
+        name: metadata
+        for name, metadata in actual.items()
+        if metadata.get("archived") is not True
+    }
     registered = {record.name: record for record in inventory}
     findings: list[AuditFinding] = []
-    for name in sorted(set(actual) - set(registered)):
+    for name in sorted(set(active_actual) - set(registered)):
         findings.append(
             _finding(
                 ".github",

@@ -8,7 +8,7 @@
       "lifecycle": "active",
       "profiles": ["governance-framework"],
       "expected_waef_check": "WAEF Compliance",
-      "migration_wave": 3
+      "migration_wave": 1
     },
     {
       "name": "DCC",
@@ -16,7 +16,7 @@
       "lifecycle": "active",
       "profiles": ["r-package"],
       "expected_waef_check": "WAEF Compliance",
-      "migration_wave": 1
+      "migration_wave": 2
     },
     {
       "name": "IRTC",
@@ -24,13 +24,13 @@
       "lifecycle": "active",
       "profiles": ["r-package"],
       "expected_waef_check": "WAEF Compliance",
-      "migration_wave": 2
+      "migration_wave": 3
     },
     {
       "name": "LISTC",
       "owner": "statistics-engineering",
-      "lifecycle": "planned",
-      "profiles": ["planned-project"],
+      "lifecycle": "active",
+      "profiles": ["r-package"],
       "expected_waef_check": "WAEF Compliance",
       "migration_wave": 3
     },
@@ -48,23 +48,15 @@
       "lifecycle": "active",
       "profiles": ["r-package"],
       "expected_waef_check": "WAEF Compliance",
-      "migration_wave": 2
+      "migration_wave": 3
     },
     {
-      "name": "mergecalib",
-      "owner": "package-maintainers",
-      "lifecycle": "active",
-      "profiles": ["r-package"],
+      "name": "data-reporting-ai",
+      "owner": "analytics-engineering",
+      "lifecycle": "planned",
+      "profiles": ["planned-project"],
       "expected_waef_check": "WAEF Compliance",
-      "migration_wave": 2
-    },
-    {
-      "name": "ratecalib",
-      "owner": "package-maintainers",
-      "lifecycle": "active",
-      "profiles": ["r-package"],
-      "expected_waef_check": "WAEF Compliance",
-      "migration_wave": 2
+      "migration_wave": 3
     },
     {
       "name": "repository-template",
@@ -80,7 +72,15 @@
       "lifecycle": "active",
       "profiles": ["static-website"],
       "expected_waef_check": "WAEF Compliance",
-      "migration_wave": 1
+      "migration_wave": 2
+    },
+    {
+      "name": "website-AI-preview",
+      "owner": "web-engineering",
+      "lifecycle": "active",
+      "profiles": ["static-website"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 2
     },
     {
       "name": "website-global-preview",
@@ -89,6 +89,14 @@
       "profiles": ["static-website"],
       "expected_waef_check": "WAEF Compliance",
       "migration_wave": 3
+    },
+    {
+      "name": "wechat-md-edit",
+      "owner": "web-engineering",
+      "lifecycle": "active",
+      "profiles": ["web-application"],
+      "expected_waef_check": "WAEF Compliance",
+      "migration_wave": 2
     }
   ]
 }

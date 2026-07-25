@@ -58,8 +58,8 @@ def candidate_fixture():
 
 
 class CandidateSandboxBridgeTests(unittest.TestCase):
-    def test_production_allowlist_remains_exactly_eleven_without_sandbox(self):
-        self.assertEqual(11, len(APPROVED_REPOSITORIES))
+    def test_production_allowlist_remains_exactly_twelve_without_sandbox(self):
+        self.assertEqual(12, len(APPROVED_REPOSITORIES))
         self.assertNotIn(SANDBOX_REPOSITORY, APPROVED_REPOSITORIES)
 
     def test_clean_candidate_push_audits_only_sandbox_without_tag_lookup(self):

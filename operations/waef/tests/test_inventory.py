@@ -15,11 +15,12 @@ EXPECTED_REPOSITORIES = {
     "LISTC",
     "WAEF",
     "WFC",
-    "mergecalib",
-    "ratecalib",
+    "data-reporting-ai",
     "repository-template",
     "website",
+    "website-AI-preview",
     "website-global-preview",
+    "wechat-md-edit",
 }
 
 
@@ -37,7 +38,7 @@ class InventoryTests(unittest.TestCase):
     def test_inventory_registers_exactly_the_approved_repositories(self):
         records = load_inventory(INVENTORY)
         self.assertEqual(EXPECTED_REPOSITORIES, {record.name for record in records})
-        self.assertEqual(11, len(records))
+        self.assertEqual(12, len(records))
 
     def test_inventory_records_required_governance_fields(self):
         for record in load_inventory(INVENTORY):
@@ -50,25 +51,27 @@ class InventoryTests(unittest.TestCase):
 
     def test_inventory_assigns_profiles_and_waves_from_the_approved_design(self):
         records = {record.name: record for record in load_inventory(INVENTORY)}
-        for name in {"DCC", "IRTC", "WFC", "mergecalib", "ratecalib"}:
+        for name in {"DCC", "IRTC", "LISTC", "WFC"}:
             self.assertEqual(("r-package",), records[name].profiles)
-        for name in {"website", "website-global-preview"}:
+        for name in {"website", "website-AI-preview", "website-global-preview"}:
             self.assertEqual(("static-website",), records[name].profiles)
         for name in {".github", "WAEF"}:
             self.assertEqual(("governance-framework",), records[name].profiles)
         self.assertEqual(("repository-template",), records["repository-template"].profiles)
-        self.assertEqual(("planned-project",), records["LISTC"].profiles)
+        self.assertEqual(("web-application",), records["wechat-md-edit"].profiles)
+        self.assertEqual(("planned-project",), records["data-reporting-ai"].profiles)
+        self.assertEqual("active", records["LISTC"].lifecycle)
 
         self.assertEqual(
-            {"WAEF", "repository-template", "DCC", "website"},
+            {"WAEF", "repository-template", ".github"},
             {name for name, record in records.items() if record.migration_wave == 1},
         )
         self.assertEqual(
-            {"IRTC", "WFC", "mergecalib", "ratecalib"},
+            {"DCC", "website", "website-AI-preview", "wechat-md-edit"},
             {name for name, record in records.items() if record.migration_wave == 2},
         )
         self.assertEqual(
-            {".github", "website-global-preview", "LISTC"},
+            {"IRTC", "WFC", "LISTC", "website-global-preview", "data-reporting-ai"},
             {name for name, record in records.items() if record.migration_wave == 3},
         )
 

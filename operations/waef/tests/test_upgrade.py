@@ -402,8 +402,30 @@ class UpgradeTests(unittest.TestCase):
         self.assertLess(workflow.index("Test upgrade implementation"), workflow.index("git ls-remote"))
         self.assertLess(workflow.index("git ls-remote"), workflow.rindex("python3 -m operations.waef.upgrade"))
         self.assertIn("repositories: |", workflow)
-        self.assertIn("            LISTC\n", workflow)
+        repository_block = workflow.split("repositories: |\n", 1)[1].split(
+            "          permission-contents:", 1
+        )[0]
+        self.assertEqual(
+            (
+                ".github",
+                "DCC",
+                "IRTC",
+                "LISTC",
+                "WAEF",
+                "WFC",
+                "data-reporting-ai",
+                "repository-template",
+                "website",
+                "website-AI-preview",
+                "website-global-preview",
+                "wechat-md-edit",
+            ),
+            tuple(line.strip() for line in repository_block.splitlines()),
+        )
         self.assertNotIn("            LISTR\n", workflow)
+        self.assertNotIn("            mergecalib\n", workflow)
+        self.assertNotIn("            ratecalib\n", workflow)
+        self.assertNotIn("            waef-compliance-sandbox\n", workflow)
         self.assertIn("permission-contents: write", workflow)
         self.assertIn("permission-pull-requests: write", workflow)
         self.assertIn("permission-workflows: write", workflow)

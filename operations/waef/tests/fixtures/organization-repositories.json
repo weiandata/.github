@@ -5,9 +5,13 @@
   {"name": "LISTC", "archived": false, "default_branch": "main"},
   {"name": "WAEF", "archived": false, "default_branch": "main"},
   {"name": "WFC", "archived": false, "default_branch": "main"},
-  {"name": "mergecalib", "archived": false, "default_branch": "main"},
-  {"name": "ratecalib", "archived": false, "default_branch": "main"},
+  {"name": "data-reporting-ai", "archived": false, "default_branch": "main"},
   {"name": "repository-template", "archived": false, "default_branch": "main"},
   {"name": "website", "archived": false, "default_branch": "main"},
-  {"name": "website-global-preview", "archived": false, "default_branch": "main"}
+  {"name": "website-AI-preview", "archived": false, "default_branch": "main"},
+  {"name": "website-global-preview", "archived": false, "default_branch": "main"},
+  {"name": "wechat-md-edit", "archived": false, "default_branch": "main"},
+  {"name": "mergecalib", "archived": true, "default_branch": "main"},
+  {"name": "ratecalib", "archived": true, "default_branch": "main"},
+  {"name": "waef-compliance-sandbox", "archived": true, "default_branch": "main"}
 ]

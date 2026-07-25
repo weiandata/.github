@@ -16,11 +16,12 @@ APPROVED_REPOSITORIES = frozenset(
         "LISTC",
         "WAEF",
         "WFC",
-        "mergecalib",
-        "ratecalib",
+        "data-reporting-ai",
         "repository-template",
         "website",
+        "website-AI-preview",
         "website-global-preview",
+        "wechat-md-edit",
     }
 )
 ROOT_FIELDS = frozenset({"schema_version", "organization", "repositories"})
