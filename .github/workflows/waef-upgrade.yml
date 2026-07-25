@@ -77,11 +77,12 @@ jobs:
             LISTC
             WAEF
             WFC
-            mergecalib
-            ratecalib
+            data-reporting-ai
             repository-template
             website
+            website-AI-preview
             website-global-preview
+            wechat-md-edit
           permission-contents: write
           permission-metadata: read
           permission-pull-requests: write

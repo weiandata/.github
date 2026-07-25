@@ -161,6 +161,23 @@ class AuditTests(unittest.TestCase):
         self.assertEqual(".github", finding.repository)
         self.assertIn("surprise", finding.message)
 
+    def test_unregistered_archived_repository_is_ignored(self):
+        fixture = load_fixture("compliant-repository.json")
+        repositories = [
+            fixture["repository"],
+            {"name": "retired", "archived": True, "default_branch": "main"},
+        ]
+        report = audit_organization(
+            FakeGitHubClient(fixture, repositories),
+            [record()],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertNotIn(
+            "WAEF-AUDIT-UNREGISTERED",
+            {finding.rule_id for finding in report.findings},
+        )
+
     def test_archived_repository_gets_one_finding_without_file_cascade(self):
         fixture = load_fixture("compliant-repository.json")
         fixture["repository"]["archived"] = True
@@ -355,8 +372,30 @@ class AuditTests(unittest.TestCase):
         self.assertIn("secrets.WAEF_APP_ID", read_block)
         self.assertNotIn("secrets.WAEF_AUTOMATION_APP_ID", read_block)
         self.assertIn("repositories: |", issue_block)
-        self.assertIn("            LISTC\n", issue_block)
+        repository_block = issue_block.split("repositories: |\n", 1)[1].split(
+            "          permission-issues:", 1
+        )[0]
+        self.assertEqual(
+            (
+                ".github",
+                "DCC",
+                "IRTC",
+                "LISTC",
+                "WAEF",
+                "WFC",
+                "data-reporting-ai",
+                "repository-template",
+                "website",
+                "website-AI-preview",
+                "website-global-preview",
+                "wechat-md-edit",
+            ),
+            tuple(line.strip() for line in repository_block.splitlines()),
+        )
         self.assertNotIn("            LISTR\n", issue_block)
+        self.assertNotIn("            mergecalib\n", issue_block)
+        self.assertNotIn("            ratecalib\n", issue_block)
+        self.assertNotIn("            waef-compliance-sandbox\n", issue_block)
         self.assertIn("permission-issues: write", issue_block)
         self.assertIn("secrets.WAEF_AUTOMATION_APP_ID", issue_block)
         self.assertIn("WAEF_ISSUE_TOKEN", workflow)
