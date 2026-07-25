@@ -21,7 +21,7 @@ jobs:
 
       - name: Create organization-wide read-only audit token
         id: audit-read-token
-        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859
         with:
           app-id: ${{ secrets.WAEF_APP_ID }}
           private-key: ${{ secrets.WAEF_APP_PRIVATE_KEY }}
@@ -33,7 +33,7 @@ jobs:
 
       - name: Create repository-limited Issue token
         id: audit-issue-token
-        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859
         with:
           app-id: ${{ secrets.WAEF_AUTOMATION_APP_ID }}
           private-key: ${{ secrets.WAEF_AUTOMATION_APP_PRIVATE_KEY }}
@@ -42,7 +42,7 @@ jobs:
             .github
             DCC
             IRTC
-            LISTR
+            LISTC
             WAEF
             WFC
             mergecalib

@@ -402,9 +402,21 @@ class UpgradeTests(unittest.TestCase):
         self.assertLess(workflow.index("Test upgrade implementation"), workflow.index("git ls-remote"))
         self.assertLess(workflow.index("git ls-remote"), workflow.rindex("python3 -m operations.waef.upgrade"))
         self.assertIn("repositories: |", workflow)
+        self.assertIn("            LISTC\n", workflow)
+        self.assertNotIn("            LISTR\n", workflow)
         self.assertIn("permission-contents: write", workflow)
         self.assertIn("permission-pull-requests: write", workflow)
         self.assertIn("permission-workflows: write", workflow)
+        self.assertEqual(
+            1,
+            workflow.count(
+                "actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859"
+            ),
+        )
+        self.assertNotIn(
+            "actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349",
+            workflow,
+        )
         self.assertIn("secrets.WAEF_AUTOMATION_APP_ID", workflow)
         self.assertNotIn("secrets.WAEF_APP_ID", workflow)
         self.assertNotIn("/merge", workflow)

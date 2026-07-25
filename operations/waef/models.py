@@ -13,7 +13,7 @@ APPROVED_REPOSITORIES = frozenset(
         ".github",
         "DCC",
         "IRTC",
-        "LISTR",
+        "LISTC",
         "WAEF",
         "WFC",
         "mergecalib",

@@ -170,6 +170,17 @@ class AuditTests(unittest.TestCase):
         )
         self.assertEqual(["WAEF-AUDIT-ARCHIVED"], [item.rule_id for item in report.findings])
 
+    def test_archived_repository_reports_issue_centrally(self):
+        fixture = load_fixture("compliant-repository.json")
+        fixture["repository"]["archived"] = True
+        fixture["files"] = {}
+        issue_client = FakeGitHubClient(fixture)
+        report = audit_organization(
+            FakeGitHubClient(fixture), [record()], TODAY, issue_client=issue_client
+        )
+        self.assertEqual("WAEF-AUDIT-ARCHIVED", report.findings[0].rule_id)
+        self.assertEqual("/repos/weiandata/.github/issues", issue_client.writes[0][1])
+
     def test_missing_registered_repository_reports_issue_centrally(self):
         fixture = load_fixture("compliant-repository.json")
         read_client = FakeGitHubClient(fixture, [])
@@ -328,8 +339,12 @@ class AuditTests(unittest.TestCase):
         self.assertEqual(
             2,
             workflow.count(
-                "actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349"
+                "actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859"
             ),
+        )
+        self.assertNotIn(
+            "actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349",
+            workflow,
         )
         read_block, issue_block = workflow.split(
             "- name: Create repository-limited Issue token", 1
@@ -340,6 +355,8 @@ class AuditTests(unittest.TestCase):
         self.assertIn("secrets.WAEF_APP_ID", read_block)
         self.assertNotIn("secrets.WAEF_AUTOMATION_APP_ID", read_block)
         self.assertIn("repositories: |", issue_block)
+        self.assertIn("            LISTC\n", issue_block)
+        self.assertNotIn("            LISTR\n", issue_block)
         self.assertIn("permission-issues: write", issue_block)
         self.assertIn("secrets.WAEF_AUTOMATION_APP_ID", issue_block)
         self.assertIn("WAEF_ISSUE_TOKEN", workflow)

@@ -12,7 +12,7 @@ EXPECTED_REPOSITORIES = {
     ".github",
     "DCC",
     "IRTC",
-    "LISTR",
+    "LISTC",
     "WAEF",
     "WFC",
     "mergecalib",
@@ -57,7 +57,7 @@ class InventoryTests(unittest.TestCase):
         for name in {".github", "WAEF"}:
             self.assertEqual(("governance-framework",), records[name].profiles)
         self.assertEqual(("repository-template",), records["repository-template"].profiles)
-        self.assertEqual(("planned-project",), records["LISTR"].profiles)
+        self.assertEqual(("planned-project",), records["LISTC"].profiles)
 
         self.assertEqual(
             {"WAEF", "repository-template", "DCC", "website"},
@@ -68,7 +68,7 @@ class InventoryTests(unittest.TestCase):
             {name for name, record in records.items() if record.migration_wave == 2},
         )
         self.assertEqual(
-            {".github", "website-global-preview", "LISTR"},
+            {".github", "website-global-preview", "LISTC"},
             {name for name, record in records.items() if record.migration_wave == 3},
         )
 
