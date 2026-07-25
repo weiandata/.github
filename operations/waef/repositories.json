@@ -27,7 +27,7 @@
       "migration_wave": 2
     },
     {
-      "name": "LISTR",
+      "name": "LISTC",
       "owner": "statistics-engineering",
       "lifecycle": "planned",
       "profiles": ["planned-project"],

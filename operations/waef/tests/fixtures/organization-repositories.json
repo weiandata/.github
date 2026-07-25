@@ -2,7 +2,7 @@
   {"name": ".github", "archived": false, "default_branch": "main"},
   {"name": "DCC", "archived": false, "default_branch": "main"},
   {"name": "IRTC", "archived": false, "default_branch": "main"},
-  {"name": "LISTR", "archived": false, "default_branch": "main"},
+  {"name": "LISTC", "archived": false, "default_branch": "main"},
   {"name": "WAEF", "archived": false, "default_branch": "main"},
   {"name": "WFC", "archived": false, "default_branch": "main"},
   {"name": "mergecalib", "archived": false, "default_branch": "main"},
