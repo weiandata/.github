@@ -1,6 +1,7 @@
 {
   "repository": {
     "name": "DCC",
+    "private": true,
     "archived": false,
     "default_branch": "main"
   },

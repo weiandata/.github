@@ -15,10 +15,40 @@ from operations.waef.models import RepositoryRecord
 FIXTURES = Path(__file__).with_name("fixtures")
 ROOT = Path(__file__).resolve().parents[3]
 TODAY = dt.date(2026, 7, 15)
+PUBLIC_BRIDGE_SOURCE_COMMIT = "3f61a59aace865b162f383a95ecb0372c23880e4"
+FIXTURE_COMMIT = "993ef1e41306146f62881106ab17cae2e23162f5"
 
 
 def load_fixture(name):
     return json.loads((FIXTURES / name).read_text(encoding="utf-8"))
+
+
+def public_bridge(repository, commit=FIXTURE_COMMIT):
+    source = (
+        ROOT / ".github" / "workflows" / "waef-compliance.yml"
+    ).read_text(encoding="utf-8")
+    return source.replace(
+        "weiandata/.github", f"weiandata/{repository}"
+    ).replace(PUBLIC_BRIDGE_SOURCE_COMMIT, commit)
+
+
+def public_fixture(repository, version):
+    fixture = load_fixture("compliant-repository.json")
+    fixture["repository"]["name"] = repository
+    fixture["repository"]["private"] = False
+    lock = fixture["files"][".waef/waef.lock.yml"]
+    fixture["files"][".waef/waef.lock.yml"] = (
+        lock.replace('version: "4.0"', f'version: "{version}"')
+        .replace("tag: v4.0", f"tag: v{version}")
+        .replace("weiandata/DCC", f"weiandata/{repository}")
+    )
+    fixture["files"][".github/workflows/waef-compliance.yml"] = public_bridge(
+        repository
+    )
+    fixture["waef_tags"] = {
+        f"v{version}": {"type": "commit", "sha": FIXTURE_COMMIT}
+    }
+    return fixture
 
 
 def record(**changes):
@@ -298,6 +328,107 @@ class AuditTests(unittest.TestCase):
         )
         self.assertIn(
             "WAEF-AUDIT-WORKFLOW", {finding.rule_id for finding in report.findings}
+        )
+
+    def test_v43_public_repository_bridge_is_accepted(self):
+        fixture = public_fixture("DCC", "4.3")
+        report = audit_organization(
+            FakeGitHubClient(fixture),
+            [record()],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertEqual((), report.findings)
+
+    def test_v42_dotgithub_public_bridge_is_accepted(self):
+        fixture = public_fixture(".github", "4.2")
+        report = audit_organization(
+            FakeGitHubClient(fixture),
+            [
+                record(
+                    name=".github",
+                    owner="organization-governance",
+                    profiles=("governance-framework",),
+                )
+            ],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertNotIn(
+            "WAEF-AUDIT-WORKFLOW",
+            {finding.rule_id for finding in report.findings},
+        )
+
+    def test_v42_public_bridge_is_rejected_outside_dotgithub(self):
+        fixture = public_fixture("DCC", "4.2")
+        report = audit_organization(
+            FakeGitHubClient(fixture),
+            [record()],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertIn(
+            "WAEF-AUDIT-WORKFLOW",
+            {finding.rule_id for finding in report.findings},
+        )
+
+    def test_future_public_bridge_version_fails_closed(self):
+        fixture = public_fixture("DCC", "4.4")
+        report = audit_organization(
+            FakeGitHubClient(fixture),
+            [record()],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertIn(
+            "WAEF-AUDIT-WORKFLOW",
+            {finding.rule_id for finding in report.findings},
+        )
+
+    def test_public_bridge_bound_to_another_repository_is_rejected(self):
+        fixture = public_fixture("DCC", "4.3")
+        fixture["files"][
+            ".github/workflows/waef-compliance.yml"
+        ] = public_bridge("website")
+        report = audit_organization(
+            FakeGitHubClient(fixture),
+            [record()],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertIn(
+            "WAEF-AUDIT-WORKFLOW",
+            {finding.rule_id for finding in report.findings},
+        )
+
+    def test_public_bridge_bound_to_another_commit_is_rejected(self):
+        fixture = public_fixture("DCC", "4.3")
+        fixture["files"][
+            ".github/workflows/waef-compliance.yml"
+        ] = public_bridge("DCC", "a" * 40)
+        report = audit_organization(
+            FakeGitHubClient(fixture),
+            [record()],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertIn(
+            "WAEF-AUDIT-WORKFLOW",
+            {finding.rule_id for finding in report.findings},
+        )
+
+    def test_missing_repository_visibility_fails_closed(self):
+        fixture = load_fixture("compliant-repository.json")
+        del fixture["repository"]["private"]
+        report = audit_organization(
+            FakeGitHubClient(fixture),
+            [record()],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertIn(
+            "WAEF-AUDIT-WORKFLOW",
+            {finding.rule_id for finding in report.findings},
         )
 
     def test_same_name_check_from_another_workflow_is_rejected(self):

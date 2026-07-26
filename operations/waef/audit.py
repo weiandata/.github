@@ -17,7 +17,10 @@ from zoneinfo import ZoneInfo
 
 from operations.waef.github_client import GitHubClient, decode_file_content
 from operations.waef.models import AuditFinding, RepositoryRecord, load_inventory
-from operations.waef.render_adapter import render_compliance_workflow
+from operations.waef.render_adapter import (
+    render_compliance_workflow,
+    render_public_compliance_workflow,
+)
 
 
 ORGANIZATION = "weiandata"
@@ -231,21 +234,58 @@ def _validate_project(
 
 
 def _validate_workflow(
-    repository: str, text: str | None, lock: dict[str, Any] | None
+    repository: str,
+    text: str | None,
+    lock: dict[str, Any] | None,
+    repository_private: bool | None,
 ) -> list[AuditFinding]:
     path = WORKFLOW_PATH
     if text is None:
         return [_finding(repository, "WAEF-AUDIT-WORKFLOW", path, "WAEF workflow caller is missing")]
-    if lock is None or not isinstance(lock.get("commit"), str):
-        return []
-    commit = lock["commit"]
-    if text != render_compliance_workflow(commit):
+    if lock is None or not COMMIT_RE.fullmatch(str(lock.get("commit", ""))):
         return [
             _finding(
                 repository,
                 "WAEF-AUDIT-WORKFLOW",
                 path,
-                "workflow caller does not use the exact locked WAEF commit",
+                "cannot validate workflow without a valid lock commit",
+            )
+        ]
+    if repository_private is None:
+        return [
+            _finding(
+                repository,
+                "WAEF-AUDIT-WORKFLOW",
+                path,
+                "cannot validate workflow without Boolean repository visibility",
+            )
+        ]
+
+    commit = lock["commit"]
+    version = str(lock.get("version", ""))
+    if repository_private:
+        expected = render_compliance_workflow(commit)
+    elif version == "4.2" and repository == ".github":
+        expected = render_public_compliance_workflow(repository, commit)
+    elif version == "4.3":
+        expected = render_public_compliance_workflow(repository, commit)
+    else:
+        return [
+            _finding(
+                repository,
+                "WAEF-AUDIT-WORKFLOW",
+                path,
+                f"public bridge is not authorized for locked WAEF {version or 'unknown'}",
+            )
+        ]
+
+    if text != expected:
+        return [
+            _finding(
+                repository,
+                "WAEF-AUDIT-WORKFLOW",
+                path,
+                "workflow does not exactly match the authorized locked WAEF renderer",
             )
         ]
     return []
@@ -599,7 +639,16 @@ def audit_organization(
         lock, lock_findings = _validate_lock(record.name, lock_text, record.profiles)
         findings.extend(lock_findings)
         findings.extend(_validate_project(record.name, project, record.owner, record.lifecycle))
-        findings.extend(_validate_workflow(record.name, workflow, lock))
+        raw_private = metadata.get("private")
+        repository_private = raw_private if isinstance(raw_private, bool) else None
+        findings.extend(
+            _validate_workflow(
+                record.name,
+                workflow,
+                lock,
+                repository_private,
+            )
+        )
         findings.extend(_validate_codeowners(record.name, codeowners))
         findings.extend(_validate_exceptions(record.name, exceptions, today))
         findings.extend(_validate_provenance(client, record.name, lock, tag_cache))
