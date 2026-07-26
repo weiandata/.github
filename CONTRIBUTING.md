@@ -13,7 +13,7 @@ Changes to this repository must follow the [WeianData Engineering Handbook](hand
 Do not include credentials, restricted client data, or confidential client artifacts.
 
 <!-- WAEF:START -->
-<!-- WAEF-TEMPLATE-VERSION: 4.1 -->
+<!-- WAEF-TEMPLATE-VERSION: 4.2 -->
 <!-- markdownlint-disable-file MD041 -->
 Read `.waef/waef.lock.yml`, then follow the Issue, approved plan, categorized
 branch, Pull Request, validation, accountable review, and release sequence.
