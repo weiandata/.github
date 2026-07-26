@@ -24,18 +24,31 @@ evidence, or fail-closed behavior.
 The organization audit has completed successfully at the infrastructure layer:
 the organization-wide read token, repository-limited Issue token, audit test
 suite, repository enumeration, and disabled-Issues central routing all work.
-The latest audit reports 50 findings and exits with status 1.
+The pre-change audit reports 50 findings and exits with status 1.
 
-Eight findings across five repositories are compatibility false positives:
+Seven findings across five repositories are compatibility false positives:
 
-- `.github`, DCC, and website use exact guarded inline bridges accepted by
-  their locked WAEF validators, but the central audit accepts only the legacy
-  reusable caller.
-- WAEF and repository-template use the reusable workflow successfully, but
-  their GitHub check-run names are `compliance / WAEF Compliance`.
+- `.github` and DCC use exact guarded inline bridges accepted by their locked
+  WAEF validators, but the central audit accepts only the legacy reusable
+  caller.
+- `.github`, DCC, and website have successful official checks represented in
+  forms the central audit does not accept.
+- WAEF and repository-template use the reusable workflow successfully, with
+  GitHub check-run names of `compliance / WAEF Compliance`.
 - GitHub's current Actions API returns workflow run paths as
   `.github/workflows/waef-compliance.yml`, while the audit fixture and
   implementation require an `@main` suffix.
+
+One website workflow finding initially grouped with the compatibility set is
+real governance drift: the repository is private but uses the public bridge.
+It must migrate to the exact private reusable caller without changing website
+source, content, build, or deployment behavior.
+
+Post-merge organization audit run
+[`30203984695`](https://github.com/weiandata/.github/actions/runs/30203984695)
+reports 43 findings and four compliant repositories, confirming that the seven
+compatibility false positives disappeared and the website drift remained
+visible.
 
 The remaining findings describe repositories that have not yet adopted the
 required WAEF governance files or checks. Those repositories must be handled
@@ -172,8 +185,9 @@ must report no errors.
 3. Merge only after human authorization under the existing governance policy.
 4. Verify WAEF Compliance on the resulting `main` commit.
 5. Run the organization audit from `main`.
-6. Confirm that the compatibility findings for `.github`, DCC, website, WAEF,
-   and repository-template disappear.
+6. Confirm that the seven compatibility findings for `.github`, DCC, website,
+   WAEF, and repository-template disappear while the true website workflow
+   drift remains visible until its repository-local migration.
 7. Use the reduced finding set to plan repository onboarding waves without
    changing project-owned functionality.
 8. Design and implement resolved-finding Issue closure in a separate Pull

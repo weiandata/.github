@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Remove the eight false-positive WAEF audit findings affecting five compliant repositories while retaining exact workflow provenance, repository binding, and fail-closed version handling.
+**Goal:** Remove seven false-positive WAEF audit findings affecting five repositories while retaining exact workflow provenance, repository binding, fail-closed version handling, and visibility of one true website workflow drift.
 
 **Architecture:** Keep the current private reusable-workflow renderer and add one exact renderer for the approved public repository bridge. Select the renderer from trusted repository visibility plus the locked WAEF version. Normalize only the two GitHub-generated check names and two observed workflow-path representations, while continuing to require a successful push run of the exact source workflow at the current default-branch HEAD.
 
@@ -784,7 +784,7 @@ Use the `requesting-code-review` skill to review the branch against the approved
 
 After the user approves the reviewed implementation, use the `github:yeet` skill to push `fix/waef-audit-v43-compatibility` and open a pull request. The pull request description must report:
 
-- five affected repositories and eight removed compatibility false positives;
+- five affected repositories, seven removed compatibility false positives, and one preserved website workflow drift;
 - the visibility/version workflow matrix;
 - the two accepted check names and two accepted path forms;
 - the retained source-run provenance requirements;
