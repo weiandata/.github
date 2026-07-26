@@ -456,17 +456,27 @@ def _issue_body(finding: AuditFinding, today: dt.date) -> str:
     )
 
 
-def synchronize_findings(client: GitHubClient, findings: Iterable[AuditFinding], today: dt.date) -> None:
+def synchronize_findings(
+    client: GitHubClient,
+    findings: Iterable[AuditFinding],
+    today: dt.date,
+    *,
+    centralized_repositories: Iterable[str] = (),
+) -> None:
+    centralized = set(centralized_repositories)
     grouped: dict[str, list[AuditFinding]] = {}
     for finding in findings:
         destination = (
             ".github"
-            if finding.rule_id
-            in {
-                "WAEF-AUDIT-ARCHIVED",
-                "WAEF-AUDIT-UNREGISTERED",
-                "WAEF-AUDIT-REPOSITORY-MISSING",
-            }
+            if (
+                finding.repository in centralized
+                or finding.rule_id
+                in {
+                    "WAEF-AUDIT-ARCHIVED",
+                    "WAEF-AUDIT-UNREGISTERED",
+                    "WAEF-AUDIT-REPOSITORY-MISSING",
+                }
+            )
             else finding.repository
         )
         grouped.setdefault(destination, []).append(finding)
@@ -605,7 +615,15 @@ def audit_organization(
         findings=tuple(findings),
     )
     if synchronize_issues and findings:
-        synchronize_findings(issue_client or client, findings, today)
+        repositories_without_issues = {
+            name for name, metadata in actual.items() if metadata.get("has_issues") is False
+        }
+        synchronize_findings(
+            issue_client or client,
+            findings,
+            today,
+            centralized_repositories=repositories_without_issues,
+        )
     return report
 
 

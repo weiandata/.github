@@ -198,6 +198,17 @@ class AuditTests(unittest.TestCase):
         self.assertEqual("WAEF-AUDIT-ARCHIVED", report.findings[0].rule_id)
         self.assertEqual("/repos/weiandata/.github/issues", issue_client.writes[0][1])
 
+    def test_repository_without_issues_reports_issue_centrally(self):
+        fixture = load_fixture("compliant-repository.json")
+        fixture["repository"]["has_issues"] = False
+        del fixture["files"]["AGENTS.md"]
+        issue_client = FakeGitHubClient(fixture)
+        report = audit_organization(
+            FakeGitHubClient(fixture), [record()], TODAY, issue_client=issue_client
+        )
+        self.assertEqual("WAEF-AUDIT-AGENTS", report.findings[0].rule_id)
+        self.assertEqual("/repos/weiandata/.github/issues", issue_client.writes[0][1])
+
     def test_missing_registered_repository_reports_issue_centrally(self):
         fixture = load_fixture("compliant-repository.json")
         read_client = FakeGitHubClient(fixture, [])
