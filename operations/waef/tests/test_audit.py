@@ -451,6 +451,98 @@ class AuditTests(unittest.TestCase):
             "WAEF-AUDIT-CHECK", {finding.rule_id for finding in report.findings}
         )
 
+    def test_reusable_workflow_check_name_is_accepted(self):
+        fixture = load_fixture("compliant-repository.json")
+        fixture["check_runs"] = [
+            {
+                "name": "compliance / WAEF Compliance",
+                "conclusion": "success",
+                "status": "completed",
+            }
+        ]
+        report = audit_organization(
+            FakeGitHubClient(fixture),
+            [record()],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertEqual((), report.findings)
+
+    def test_multiple_successful_official_check_runs_are_accepted(self):
+        fixture = load_fixture("compliant-repository.json")
+        fixture["check_runs"] = [
+            {
+                "name": "compliance / WAEF Compliance",
+                "conclusion": "success",
+                "status": "completed",
+            },
+            {
+                "name": "compliance / WAEF Compliance",
+                "conclusion": "success",
+                "status": "completed",
+            },
+        ]
+        report = audit_organization(
+            FakeGitHubClient(fixture),
+            [record()],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertEqual((), report.findings)
+
+    def test_legacy_default_branch_workflow_path_is_accepted(self):
+        fixture = load_fixture("compliant-repository.json")
+        fixture["workflow_runs"][0]["path"] = (
+            ".github/workflows/waef-compliance.yml@main"
+        )
+        report = audit_organization(
+            FakeGitHubClient(fixture),
+            [record()],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertEqual((), report.findings)
+
+    def test_failed_official_check_is_rejected(self):
+        fixture = load_fixture("compliant-repository.json")
+        fixture["check_runs"] = [
+            {
+                "name": "compliance / WAEF Compliance",
+                "conclusion": "failure",
+                "status": "completed",
+            }
+        ]
+        report = audit_organization(
+            FakeGitHubClient(fixture),
+            [record()],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertIn(
+            "WAEF-AUDIT-CHECK",
+            {finding.rule_id for finding in report.findings},
+        )
+
+    def test_successful_similarly_named_check_is_rejected(self):
+        fixture = load_fixture("compliant-repository.json")
+        fixture["check_runs"] = [
+            {
+                "name": "prefix / WAEF Compliance",
+                "conclusion": "success",
+                "status": "completed",
+            }
+        ]
+        report = audit_organization(
+            FakeGitHubClient(fixture),
+            [record()],
+            TODAY,
+            synchronize_issues=False,
+        )
+        self.assertIn(
+            "WAEF-AUDIT-CHECK",
+            {finding.rule_id for finding in report.findings},
+        )
+
     def test_pull_request_run_is_not_default_branch_evidence(self):
         fixture = load_fixture("compliant-repository.json")
         fixture["workflow_runs"][0]["event"] = "pull_request"

@@ -437,14 +437,24 @@ def _validate_check(
         runs.extend(page_runs)
         if len(page_runs) < 100:
             break
-    matching = [run for run in runs if run.get("name") == record.expected_waef_check]
-    if len(matching) != 1 or matching[0].get("conclusion") != "success":
+    accepted_check_names = {
+        record.expected_waef_check,
+        f"compliance / {record.expected_waef_check}",
+    }
+    matching = [run for run in runs if run.get("name") in accepted_check_names]
+    successful_checks = [
+        run
+        for run in matching
+        if run.get("status") == "completed"
+        and run.get("conclusion") == "success"
+    ]
+    if not successful_checks:
         return [
             _finding(
                 record.name,
                 "WAEF-AUDIT-CHECK",
                 default_branch,
-                f"default branch must have one successful {record.expected_waef_check!r} check",
+                "current default-branch HEAD lacks a successful official WAEF check",
             )
         ]
     workflow_name = quote(Path(WORKFLOW_PATH).name, safe="")
@@ -459,10 +469,14 @@ def _validate_check(
         if isinstance(workflow_response, dict)
         else []
     )
+    accepted_workflow_paths = {
+        WORKFLOW_PATH,
+        f"{WORKFLOW_PATH}@{default_branch}",
+    }
     source_runs = [
         run
         for run in workflow_runs
-        if run.get("path") == f"{WORKFLOW_PATH}@{default_branch}"
+        if run.get("path") in accepted_workflow_paths
         and run.get("head_branch") == default_branch
         and run.get("head_sha") == sha
         and run.get("event") == "push"
@@ -470,7 +484,7 @@ def _validate_check(
         and run.get("status") == "completed"
         and run.get("conclusion") == "success"
     ]
-    if len(source_runs) != 1:
+    if not source_runs:
         return [
             _finding(
                 record.name,
