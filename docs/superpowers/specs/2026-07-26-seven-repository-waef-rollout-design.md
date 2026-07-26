@@ -48,26 +48,28 @@ repository findings remain.
 
 ## Considered Approaches
 
-### Approach A: Minimal Per-Repository Governance Envelope
+### Approach A: Complete Bounded Consumer Contract
 
 Create one independently reviewable Pull Request per repository. Add or
-minimally extend only the five governance surfaces required to produce the six
-missing audit signals. Render the workflow from the exact WAEF v4.3 contract
-for the repository's real visibility.
+minimally extend the complete repository-consumer contract enforced by the
+locked WAEF v4.3 validator. Render the workflow from the exact WAEF v4.3
+contract for the repository's real visibility.
 
 This approach is approved because it isolates rollback, preserves project
 integrity, produces repository-local evidence, and avoids unrelated template
 expansion.
 
-### Approach B: Full Repository-Template Expansion
+### Approach B: Audit-Only Five-File Envelope
 
-Add WAEF governance together with shared Issue templates, Pull Request
-templates, validation-report templates, contribution changes, and additional
-CI.
+Add only `AGENTS.md`, `CODEOWNERS`, the lock, project metadata, and the
+compliance workflow because those are the files inspected by the central
+organization audit.
 
-This was rejected for this rollout because it changes more repository surface
-than the audit requires and increases the chance of altering established
-project workflows.
+This was rejected after implementation-plan self-review because the
+repository-local WAEF v4.3 validator additionally requires cache exclusion,
+contribution lifecycle language, and versioned review templates. An audit-only
+envelope would reduce central findings while every new repository WAEF check
+would fail.
 
 ### Approach C: Central Exceptions
 
@@ -106,6 +108,34 @@ The `.waef/project.yml` values are:
 
 ## Governance File Design
 
+### Complete Bounded File Set
+
+Every repository changes or creates only these governance surfaces:
+
+- `AGENTS.md`;
+- `CODEOWNERS`;
+- `.gitignore`;
+- `CONTRIBUTING.md`;
+- `.waef/waef.lock.yml`;
+- `.waef/project.yml`;
+- `.github/workflows/waef-compliance.yml`;
+- `.github/ISSUE_TEMPLATE/waef-change.md`;
+- `.github/pull_request_template.md`;
+- `.waef/templates/VALIDATION_REPORT_TEMPLATE.md`;
+- `.waef/templates/DESIGN_DOC_TEMPLATE.md`;
+- `.waef/templates/ADR_TEMPLATE.md`; and
+- `.waef/templates/RELEASE_TEMPLATE.md`.
+
+IRTC, LISTC, and WFC also update `.Rbuildignore` so `.waef/` and any newly
+introduced root governance entry point remain outside the R package source
+bundle. This is a build-exclusion safeguard, not a change to package code or
+runtime behavior.
+
+Existing uppercase `.github/PULL_REQUEST_TEMPLATE.md` files are moved to the
+validator's canonical lowercase path and retain their project-owned content.
+The WAEF review block is appended rather than replacing the existing template.
+Existing bug, feature, and documentation Issue templates remain unchanged.
+
 ### WAEF Lock
 
 Each repository receives `.waef/waef.lock.yml` with schema 1, framework
@@ -139,6 +169,36 @@ IRTC, WFC, and wechat-md-edit retain all existing instructions byte-for-byte
 after the inserted block. Repositories without `AGENTS.md` receive only the
 locked bootstrap block; this rollout does not invent project-development
 rules.
+
+### Cache and Package Exclusion
+
+Each `.gitignore` receives exactly `.waef/cache/` under a WAEF local-cache
+comment. The cache remains untracked and exists only to validate the immutable
+framework checkout.
+
+Each R package receives `^\.waef$` in `.Rbuildignore`. LISTC also receives
+`^AGENTS\.md$` because its new root instruction file does not yet have a build
+exclusion. Existing exclusions remain unchanged.
+
+### Contribution and Review Adapters
+
+Each `CONTRIBUTING.md` retains its project guidance and receives the exact WAEF
+v4.3 lifecycle block requiring an Issue, approved plan, categorized branch,
+Pull Request, validation, accountable review, and release sequence.
+
+The repository receives the six versioned v4.3 review adapters required by the
+locked validator:
+
+- one WAEF change Issue template;
+- one canonical lowercase Pull Request template containing the required WAEF
+  review block;
+- a validation-report template;
+- a design-document template;
+- an ADR template; and
+- a release template.
+
+These are contributor-facing Markdown files. They do not install software,
+change existing business workflows, or alter runtime behavior.
 
 ### Governance Ownership
 
@@ -203,9 +263,10 @@ later rollout may copy an unverified workflow result.
 Every repository must pass all of the following before its draft Pull Request
 can become Ready for review:
 
-1. Confirm the diff touches only `AGENTS.md`, `CODEOWNERS`,
-   `.waef/waef.lock.yml`, `.waef/project.yml`, and
-   `.github/workflows/waef-compliance.yml`.
+1. Confirm the diff touches only the 13 complete consumer-contract paths
+   listed above, plus `.Rbuildignore` for IRTC, LISTC, and WFC. An uppercase
+   Pull Request template may appear as a rename to the canonical lowercase
+   path.
 2. Populate `.waef/cache` from the immutable WAEF commit without tracking the
    cache.
 3. Run `verify_framework_checkout.py` against the lock.
