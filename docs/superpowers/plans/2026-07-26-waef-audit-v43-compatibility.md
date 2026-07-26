@@ -32,7 +32,7 @@
 - Modify: `operations/waef/render_adapter.py:12-40`
 - Modify: `operations/waef/tests/test_render_adapter.py:1-65`
 
-- [ ] **Step 1: Create the implementation branch from the approved design**
+- [x] **Step 1: Create the implementation branch from the approved design**
 
 Run:
 
@@ -43,7 +43,7 @@ git status --short --branch
 
 Expected: the new branch starts at the approved design and implementation-plan commits with a clean worktree.
 
-- [ ] **Step 2: Write failing renderer contract tests**
+- [x] **Step 2: Write failing renderer contract tests**
 
 Add these imports and constants to `operations/waef/tests/test_render_adapter.py`:
 
@@ -91,7 +91,7 @@ Add these methods to `RenderAdapterTests`:
             )
 ```
 
-- [ ] **Step 3: Run the renderer tests and confirm the new API is absent**
+- [x] **Step 3: Run the renderer tests and confirm the new API is absent**
 
 Run:
 
@@ -101,7 +101,7 @@ python3 -m unittest operations.waef.tests.test_render_adapter -v
 
 Expected: FAIL with an import error for `render_public_compliance_workflow`.
 
-- [ ] **Step 4: Implement the exact public bridge renderer**
+- [x] **Step 4: Implement the exact public bridge renderer**
 
 Add the repository-name validator beside `COMMIT_RE` in `operations/waef/render_adapter.py`:
 
@@ -174,7 +174,7 @@ def render_public_compliance_workflow(repository: str, commit: str) -> str:
     )
 ```
 
-- [ ] **Step 5: Run the renderer tests**
+- [x] **Step 5: Run the renderer tests**
 
 Run:
 
@@ -184,7 +184,7 @@ python3 -m unittest operations.waef.tests.test_render_adapter -v
 
 Expected: all renderer adapter tests PASS.
 
-- [ ] **Step 6: Commit the renderer**
+- [x] **Step 6: Commit the renderer**
 
 Run:
 
@@ -208,7 +208,7 @@ Expected: one focused commit containing the exact renderer and its contract test
 - Modify: `operations/waef/tests/test_audit.py:12-31`
 - Modify: `operations/waef/tests/test_audit.py:278-321`
 
-- [ ] **Step 1: Make the legacy compliant fixture explicitly private**
+- [x] **Step 1: Make the legacy compliant fixture explicitly private**
 
 Add `"private": true` to its repository metadata:
 
@@ -223,7 +223,7 @@ Add `"private": true` to its repository metadata:
 
 This keeps the existing v4.0 private-caller fixture valid without treating absent visibility as private.
 
-- [ ] **Step 2: Add an independent public-bridge fixture helper**
+- [x] **Step 2: Add an independent public-bridge fixture helper**
 
 Add to `operations/waef/tests/test_audit.py` below the date constant:
 
@@ -262,7 +262,7 @@ def public_fixture(repository, version):
 
 The helper derives expected test text from the already approved `.github` bridge, not from the new production renderer.
 
-- [ ] **Step 3: Write the visibility/version matrix tests**
+- [x] **Step 3: Write the visibility/version matrix tests**
 
 Add these tests after the commented-caller validation test:
 
@@ -369,7 +369,7 @@ Add these tests after the commented-caller validation test:
         )
 ```
 
-- [ ] **Step 4: Run the audit tests and confirm the matrix fails**
+- [x] **Step 4: Run the audit tests and confirm the matrix fails**
 
 Run:
 
@@ -379,7 +379,7 @@ python3 -m unittest operations.waef.tests.test_audit -v
 
 Expected: the new public bridge acceptance tests FAIL because audit validation still expects only the private reusable caller. The rejection tests should already pass.
 
-- [ ] **Step 5: Import the public renderer**
+- [x] **Step 5: Import the public renderer**
 
 Change the renderer import in `operations/waef/audit.py` to:
 
@@ -390,7 +390,7 @@ from operations.waef.render_adapter import (
 )
 ```
 
-- [ ] **Step 6: Implement fail-closed dual-mode workflow validation**
+- [x] **Step 6: Implement fail-closed dual-mode workflow validation**
 
 Replace `_validate_workflow` with:
 
@@ -467,7 +467,7 @@ At the repository audit call site, normalize metadata without guessing:
         )
 ```
 
-- [ ] **Step 7: Run the audit and renderer tests**
+- [x] **Step 7: Run the audit and renderer tests**
 
 Run:
 
@@ -477,7 +477,7 @@ python3 -m unittest operations.waef.tests.test_audit operations.waef.tests.test_
 
 Expected: all tests PASS, including legacy private v4.0, public `.github` v4.2, public DCC v4.3, repository binding, commit binding, missing visibility, and future-version rejection.
 
-- [ ] **Step 8: Commit the workflow selection**
+- [x] **Step 8: Commit the workflow selection**
 
 Run:
 
@@ -498,7 +498,7 @@ Expected: one focused commit for the renderer selection matrix.
 - Modify: `operations/waef/tests/fixtures/compliant-repository.json:20-27`
 - Modify: `operations/waef/tests/test_audit.py:303-370`
 
-- [ ] **Step 1: Move the compliant fixture to GitHub's current workflow-path representation**
+- [x] **Step 1: Move the compliant fixture to GitHub's current workflow-path representation**
 
 Change:
 
@@ -512,7 +512,7 @@ to:
 "path": ".github/workflows/waef-compliance.yml"
 ```
 
-- [ ] **Step 2: Add failing check-name and path compatibility tests**
+- [x] **Step 2: Add failing check-name and path compatibility tests**
 
 Add these tests near the existing spoofed-check tests:
 
@@ -617,7 +617,7 @@ Keep these existing negative tests unchanged:
 - `test_workflow_run_from_another_ref_is_rejected`
 - `test_workflow_run_query_is_limited_to_default_branch_push_head`
 
-- [ ] **Step 3: Run the audit tests and confirm compatibility failures**
+- [x] **Step 3: Run the audit tests and confirm compatibility failures**
 
 Run:
 
@@ -627,7 +627,7 @@ python3 -m unittest operations.waef.tests.test_audit -v
 
 Expected: FAIL for the reusable-workflow check name, duplicate official checks, and current no-suffix source path. The legacy suffixed path and negative provenance tests should pass.
 
-- [ ] **Step 4: Accept the two exact check names and at least one success**
+- [x] **Step 4: Accept the two exact check names and at least one success**
 
 Replace the exact-one matching block in `_validate_check` with:
 
@@ -657,7 +657,7 @@ Replace the exact-one matching block in `_validate_check` with:
 
 This permits GitHub's reusable-workflow display name and duplicate successful reruns but does not accept arbitrary prefixes or partial matches.
 
-- [ ] **Step 5: Accept only the two observed source-path representations**
+- [x] **Step 5: Accept only the two observed source-path representations**
 
 Before constructing `source_runs`, add:
 
@@ -682,7 +682,7 @@ and:
 
 Keep all other predicates unchanged: exact workflow name, default branch, current HEAD SHA, `push` event, completed status, and successful conclusion.
 
-- [ ] **Step 6: Run the focused audit tests**
+- [x] **Step 6: Run the focused audit tests**
 
 Run:
 
@@ -692,7 +692,7 @@ python3 -m unittest operations.waef.tests.test_audit -v
 
 Expected: all audit tests PASS. In particular, both path forms and both exact check names pass, while a spoofed workflow, PR-only run, other ref, failed official check, and similarly named check fail.
 
-- [ ] **Step 7: Commit the evidence normalization**
+- [x] **Step 7: Commit the evidence normalization**
 
 Run:
 
@@ -717,7 +717,7 @@ Expected: one focused commit for check evidence compatibility.
 - Verify: `docs/superpowers/specs/2026-07-26-waef-audit-v43-compatibility-design.md`
 - Verify: `docs/superpowers/plans/2026-07-26-waef-audit-v43-compatibility.md`
 
-- [ ] **Step 1: Run the complete Python test suite**
+- [x] **Step 1: Run the complete Python test suite**
 
 Run:
 
@@ -727,7 +727,7 @@ python3 -m unittest discover -s operations/waef/tests -p "test_*.py" -v
 
 Expected: every WAEF operations test PASS.
 
-- [ ] **Step 2: Validate the governance handbook**
+- [x] **Step 2: Validate the governance handbook**
 
 Run:
 
@@ -743,7 +743,7 @@ PASS: validated 55 Markdown files, 37 chapters, and 38 stable identifiers
 
 If the counts increase because this plan is included by the validator, require `PASS` and record the new exact counts in the pull request.
 
-- [ ] **Step 3: Check formatting and unintended changes**
+- [x] **Step 3: Check formatting and unintended changes**
 
 Run:
 
@@ -755,7 +755,7 @@ git log --oneline --decorate origin/main..HEAD
 
 Expected: no whitespace errors, a clean worktree, and only the design commit, plan commit, and three focused implementation commits.
 
-- [ ] **Step 4: Review the security invariants in the final diff**
+- [x] **Step 4: Review the security invariants in the final diff**
 
 Run:
 
@@ -776,11 +776,11 @@ Confirm all of the following before publishing:
 - The exact source workflow must still have a successful default-branch `push` run at the current HEAD.
 - No Issue synchronization behavior changed.
 
-- [ ] **Step 5: Perform implementation review before publishing**
+- [x] **Step 5: Perform implementation review before publishing**
 
 Use the `requesting-code-review` skill to review the branch against the approved design and this plan. Resolve any correctness or security findings, rerun Steps 1-4, and commit fixes with a narrowly scoped message.
 
-- [ ] **Step 6: Publish only after explicit user authorization**
+- [x] **Step 6: Publish only after explicit user authorization**
 
 After the user approves the reviewed implementation, use the `github:yeet` skill to push `fix/waef-audit-v43-compatibility` and open a pull request. The pull request description must report:
 
