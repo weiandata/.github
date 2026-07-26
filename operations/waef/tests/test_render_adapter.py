@@ -1,9 +1,44 @@
 import unittest
+from pathlib import Path
 
-from operations.waef.render_adapter import replace_waef_block, update_generated_version
+from operations.waef.render_adapter import (
+    render_public_compliance_workflow,
+    replace_waef_block,
+    update_generated_version,
+)
+
+
+ROOT = Path(__file__).resolve().parents[3]
+PUBLIC_BRIDGE_SOURCE_COMMIT = "3f61a59aace865b162f383a95ecb0372c23880e4"
+V43_COMMIT = "bd0eaa761c9ca7b9c4801e0bfcae17e66c03210c"
 
 
 class RenderAdapterTests(unittest.TestCase):
+    def test_renders_exact_repository_bound_public_bridge(self):
+        source = (
+            ROOT / ".github" / "workflows" / "waef-compliance.yml"
+        ).read_text(encoding="utf-8")
+        expected = source.replace("weiandata/.github", "weiandata/DCC").replace(
+            PUBLIC_BRIDGE_SOURCE_COMMIT, V43_COMMIT
+        )
+
+        rendered = render_public_compliance_workflow("DCC", V43_COMMIT)
+
+        self.assertEqual(expected, rendered)
+
+    def test_public_bridge_rejects_non_sha_commit(self):
+        with self.assertRaisesRegex(
+            ValueError, "full lowercase 40-character SHA"
+        ):
+            render_public_compliance_workflow("DCC", "main")
+
+    def test_public_bridge_rejects_repository_injection(self):
+        with self.assertRaisesRegex(ValueError, "valid GitHub repository name"):
+            render_public_compliance_workflow(
+                'DCC"\n          run: echo bypass',
+                V43_COMMIT,
+            )
+
     def test_replaces_only_the_marked_block(self):
         original = (
             "project preface\n"

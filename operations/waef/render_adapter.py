@@ -13,6 +13,7 @@ GENERATED_MARKER_RE = re.compile(
 )
 VERSION_RE = re.compile(r"^[0-9]+\.[0-9]+$")
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
+REPOSITORY_RE = re.compile(r"^[A-Za-z0-9._-]+$")
 
 
 def render_compliance_workflow(commit: str) -> str:
@@ -34,6 +35,70 @@ def render_compliance_workflow(commit: str) -> str:
         "    secrets:\n"
         "      WAEF_APP_ID: ${{ secrets.WAEF_APP_ID }}\n"
         "      WAEF_APP_PRIVATE_KEY: ${{ secrets.WAEF_APP_PRIVATE_KEY }}\n"
+    )
+
+
+def render_public_compliance_workflow(repository: str, commit: str) -> str:
+    """Render the exact repository-bound bridge for a public repository."""
+
+    if not REPOSITORY_RE.fullmatch(repository):
+        raise ValueError("repository must be a valid GitHub repository name")
+    if not COMMIT_RE.fullmatch(commit):
+        raise ValueError("workflow commit must be a full lowercase 40-character SHA")
+    return (
+        "name: WAEF Compliance\n"
+        "on: [pull_request, push]\n"
+        "permissions:\n"
+        "  contents: read\n"
+        "jobs:\n"
+        "  compliance:\n"
+        "    name: WAEF Compliance\n"
+        "    runs-on: ubuntu-latest\n"
+        "    timeout-minutes: 15\n"
+        "    steps:\n"
+        "      - name: Check out consumer repository\n"
+        "        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\n"
+        "        with:\n"
+        "          persist-credentials: false\n"
+        "\n"
+        "      - name: Restrict public organization bridge\n"
+        "        env:\n"
+        "          CALLER_REPOSITORY: ${{ github.repository }}\n"
+        "        run: |\n"
+        "          set -euo pipefail\n"
+        f'          test "${{CALLER_REPOSITORY}}" = "weiandata/{repository}"\n'
+        "\n"
+        "      - name: Create private WAEF read token\n"
+        "        id: waef-token\n"
+        "        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859\n"
+        "        with:\n"
+        "          app-id: ${{ secrets.WAEF_APP_ID }}\n"
+        "          private-key: ${{ secrets.WAEF_APP_PRIVATE_KEY }}\n"
+        "          owner: weiandata\n"
+        "          repositories: WAEF\n"
+        "\n"
+        "      - name: Check out exact private WAEF source\n"
+        "        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\n"
+        "        with:\n"
+        "          repository: weiandata/WAEF\n"
+        f"          ref: {commit}\n"
+        "          token: ${{ steps.waef-token.outputs.token }}\n"
+        "          path: .waef/cache\n"
+        "          persist-credentials: false\n"
+        "          fetch-depth: 0\n"
+        "\n"
+        "      - name: Verify exact private WAEF source\n"
+        "        env:\n"
+        "          WAEF_LOCK_PATH: .waef/waef.lock.yml\n"
+        '        run: python3 .waef/cache/scripts/verify_framework_checkout.py --lock "$GITHUB_WORKSPACE/$WAEF_LOCK_PATH" --checkout .waef/cache\n'
+        "\n"
+        "      - name: Install pinned validator requirements\n"
+        "        run: python3 -m pip install --disable-pip-version-check --requirement .waef/cache/requirements.txt\n"
+        "\n"
+        "      - name: Validate consumer repository\n"
+        "        env:\n"
+        "          WAEF_LOCK_PATH: .waef/waef.lock.yml\n"
+        '        run: python3 .waef/cache/scripts/validate_repository.py "$GITHUB_WORKSPACE" --event "$GITHUB_EVENT_PATH" --lock-path "$WAEF_LOCK_PATH"\n'
     )
 
 
