@@ -26,7 +26,7 @@ the organization-wide read token, repository-limited Issue token, audit test
 suite, repository enumeration, and disabled-Issues central routing all work.
 The latest audit reports 50 findings and exits with status 1.
 
-Five findings are compatibility false positives:
+Eight findings across five repositories are compatibility false positives:
 
 - `.github`, DCC, and website use exact guarded inline bridges accepted by
   their locked WAEF validators, but the central audit accepts only the legacy
