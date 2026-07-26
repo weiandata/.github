@@ -1,4 +1,4 @@
-<!-- WAEF-TEMPLATE-VERSION: 4.1 -->
+<!-- WAEF-TEMPLATE-VERSION: 4.2 -->
 # Validation Report
 
 ## Commands & Results
